@@ -29,7 +29,7 @@
   },
   "extra": {
     "flarum-extension": {
-      "title": "LSCache",
+      "title": "LiteSpeed Cache",
       "category": "feature",
       "icon": {
         "name": "fas fa-bolt",
