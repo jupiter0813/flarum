@@ -5,7 +5,11 @@
     "flarum"
   ],
   "type": "flarum-extension",
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
+  "support": {
+    "issues": "https://github.com/android-com-pl/flarum-lscache/issues",
+    "source": "https://github.com/android-com-pl/flarum-lscache"
+  },
   "require": {
     "flarum/core": "^1.0.0",
     "php": "^7.4||^8.0",
