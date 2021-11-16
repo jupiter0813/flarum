@@ -1,7 +1,7 @@
 # LiteSpeed Cache for Flarum
 
 
-[comment]: <> (![License]&#40;https://img.shields.io/badge/license-MIT-blue.svg&#41; [![Latest Stable Version]&#40;https://img.shields.io/packagist/v/acpl/flarum-lscache.svg&#41;]&#40;https://packagist.org/packages/acpl/flarum-lscache&#41; [![Total Downloads]&#40;https://img.shields.io/packagist/dt/acpl/flarum-lscache.svg&#41;]&#40;https://packagist.org/packages/acpl/flarum-lscache&#41;)
+[![Latest Stable Version](https://img.shields.io/packagist/v/acpl/flarum-lscache)](https://packagist.org/packages/acpl/flarum-lscache) [![Total Downloads](https://img.shields.io/packagist/dt/acpl/flarum-lscache.svg)](https://packagist.org/packages/acpl/flarum-lscache)
 
 A [Flarum](http://flarum.org) extension. Integrates LSCache with your forum.
 
@@ -9,7 +9,15 @@ Requires a LiteSpeed Web Server.
 
 # Installation
 
-### Add this to your `.htaccess` file:
+### Install with composer:
+
+```sh
+
+composer require acpl/flarum-lscache:"*"
+
+```
+
+#### You need to include this code in your `.htaccess` file:
 
 ```apacheconf
 <IfModule LiteSpeed>
@@ -24,16 +32,8 @@ Requires a LiteSpeed Web Server.
     RewriteRule .* - [E=Cache-Control:private]
 </IfModule>
 ```
-Rules in `.htaccess` have a higher priority than those added by the extension. For example, you can exclude specific URLs from the cache or change their expiration time. For more options, see here: https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules
+Rules in `.htaccess` have a higher priority than those added by the extension. For example, you can exclude specific URLs from the cache or change their expiration time. For more options, see here: [https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules](https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules)
 
-
-### Install with composer:
-
-```sh
-
-composer require acpl/flarum-lscache:"*"
-
-```
 
 ### Updating
 
@@ -45,12 +45,14 @@ php flarum migrate
 
 php flarum cache:clear
 
+php flarum lscache:clear
+
 ```
 
-[comment]: <> (## Links)
+## Links
 
-[comment]: <> (- [Packagist]&#40;https://packagist.org/packages/acpl/flarum-lscache&#41;)
+- [Packagist](https://packagist.org/packages/acpl/flarum-lscache)
 
-[comment]: <> (- [GitHub]&#40;https://github.com/android-com-pl/flarum-lscache&#41;)
+- [GitHub](https://github.com/android-com-pl/flarum-lscache)
 
 [comment]: <> (- [Discuss]&#40;https://discuss.flarum.org/d/PUT_DISCUSS_SLUG_HERE&#41;)
