@@ -40,6 +40,10 @@ class LSCacheMiddleware implements MiddlewareInterface
 
         //Purge cache
         if (in_array($method, ['POST', 'PUT', 'PATCH', 'DELETE'])) {
+            if ($response->hasHeader('X-LiteSpeed-Purge')) {
+                return $response;
+            }
+
             $lscachePurgeString = [$currentRoute];
 
             if (Str::endsWith($routeName, ['.create', '.update', '.delete'])) {
