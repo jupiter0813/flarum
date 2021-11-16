@@ -12,9 +12,7 @@ Requires a LiteSpeed Web Server.
 ### Install with composer:
 
 ```sh
-
 composer require acpl/flarum-lscache:"*"
-
 ```
 
 #### You need to include this code in your `.htaccess` file:
@@ -38,7 +36,6 @@ Rules in `.htaccess` have a higher priority than those added by the extension. F
 ### Updating
 
 ```sh
-
 composer update acpl/flarum-lscache:"*"
 
 php flarum migrate
@@ -46,7 +43,6 @@ php flarum migrate
 php flarum cache:clear
 
 php flarum lscache:clear
-
 ```
 
 ## Links
@@ -55,4 +51,4 @@ php flarum lscache:clear
 
 - [GitHub](https://github.com/android-com-pl/flarum-lscache)
 
-[comment]: <> (- [Discuss]&#40;https://discuss.flarum.org/d/PUT_DISCUSS_SLUG_HERE&#41;)
+- [Discuss](https://discuss.flarum.org/d/29475-litespeed-cache-for-flarum)
