@@ -41,8 +41,6 @@ composer update acpl/flarum-lscache:"*"
 php flarum migrate
 
 php flarum cache:clear
-
-php flarum lscache:clear
 ```
 You can clear the LSCache in the admin panel. The option is available under the standard Flarum cache clearing option.
 There is also the `flarum lscache:clear --userId [adminId]` command, but you must know the admin id to use it. Eg. `flarum lscache:clear --userId 9`. The admin id is needed to authorize the request. This command will probably be replaced by a better solution soon.
