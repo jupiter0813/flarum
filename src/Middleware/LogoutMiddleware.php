@@ -26,9 +26,10 @@ class LogoutMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $logoutUri = new Uri($this->url->to('forum')->path('/logout'));
+        $logoutUri = new Uri($this->url->to('forum')->route('logout'));
         $response = $handler->handle($request);
         if ($request->getUri()->getPath() === $logoutUri->getPath() && $response instanceof RedirectResponse) {
+            $response = $response->withHeader('X-LiteSpeed-Cache-Control', 'no-cache');
             return $this->withExpiredVaryCookie($response, $request->getAttribute('session'));
         }
 
