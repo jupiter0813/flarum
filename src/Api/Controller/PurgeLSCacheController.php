@@ -2,6 +2,7 @@
 
 namespace ACPL\FlarumCache\Api\Controller;
 
+use ACPL\FlarumCache\LSCacheHeadersEnum;
 use Flarum\Http\RequestUtil;
 use Flarum\User\Exception\PermissionDeniedException;
 use Laminas\Diactoros\Response\EmptyResponse;
@@ -19,6 +20,6 @@ class PurgeLSCacheController implements RequestHandlerInterface
         RequestUtil::getActor($request)->assertAdmin();
 
         $response = new EmptyResponse();
-        return $response->withHeader('X-LiteSpeed-Purge', '*');
+        return $response->withHeader(LSCacheHeadersEnum::PURGE, '*');
     }
 }

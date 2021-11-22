@@ -1,7 +1,8 @@
 <?php
 namespace ACPL\FlarumCache\Middleware;
 
-use ACPL\FlarumCache\Utils;
+use ACPL\FlarumCache\LSCacheHeadersEnum;
+use ACPL\FlarumCache\LSCache;
 use Flarum\Http\RequestUtil;
 use Flarum\Post\Post;
 use Flarum\Settings\SettingsRepositoryInterface;
@@ -26,7 +27,7 @@ class LSCacheMiddleware implements MiddlewareInterface
         $response = $handler->handle($request);
         $method = $request->getMethod();
 
-        if (!in_array($method, ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE']) || $response->hasHeader('X-LiteSpeed-Cache-Control')) {
+        if (!in_array($method, ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE']) || $response->hasHeader(LSCacheHeadersEnum::CACHE_CONTROL)) {
             return $response;
         }
 
@@ -35,19 +36,19 @@ class LSCacheMiddleware implements MiddlewareInterface
         $params = $request->getAttribute('routeParameters');
 
         if ($routeName === 'lscache.csrf') {
-            return $response->withHeader('X-LiteSpeed-Cache-Control', 'no-cache');
+            return $response->withHeader(LSCacheHeadersEnum::CACHE_CONTROL, 'no-cache');
         }
 
         //Purge cache
         if (in_array($method, ['POST', 'PUT', 'PATCH', 'DELETE'])) {
-            if ($response->hasHeader('X-LiteSpeed-Purge')) {
+            if ($response->hasHeader(LSCacheHeadersEnum::PURGE)) {
                 return $response;
             }
 
             $lscachePurgeString = [$currentRoute];
 
             if (Str::endsWith($routeName, ['.create', '.update', '.delete'])) {
-                $rootRouteName = Utils::extractRootRouteName($routeName);
+                $rootRouteName = LSCache::extractRootRouteName($routeName);
                 array_push($lscachePurgeString, "tag=$rootRouteName.index");
 
                 if (!empty($params) && !empty($params['id'])) {
@@ -77,7 +78,7 @@ class LSCacheMiddleware implements MiddlewareInterface
                 }
             }
 
-            return $response->withHeader('X-LiteSpeed-Purge', implode(',', $lscachePurgeString));
+            return $response->withHeader(LSCacheHeadersEnum::PURGE, implode(',', $lscachePurgeString));
         }
 
         $lscacheString = [];
@@ -96,6 +97,6 @@ class LSCacheMiddleware implements MiddlewareInterface
         //TODO user group cache vary https://docs.litespeedtech.com/lscache/devguide/#cache-vary
         //TODO private cache
 
-        return $response->withHeader('X-LiteSpeed-Cache-Control', implode(',', $lscacheString));
+        return $response->withHeader(LSCacheHeadersEnum::CACHE_CONTROL, implode(',', $lscacheString));
     }
 }

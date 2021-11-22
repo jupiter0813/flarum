@@ -1,7 +1,8 @@
 <?php
 namespace ACPL\FlarumCache\Middleware;
 
-use ACPL\FlarumCache\Utils;
+use ACPL\FlarumCache\LSCacheHeadersEnum;
+use ACPL\FlarumCache\LSCache;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -13,12 +14,12 @@ class LSTagsMiddleware implements MiddlewareInterface
     {
         $response = $handler->handle($request);
 
-        if (!in_array($request->getMethod(), ['GET', 'HEAD']) || $response->hasHeader('X-LiteSpeed-Tag')) {
+        if (!in_array($request->getMethod(), ['GET', 'HEAD']) || $response->hasHeader(LSCacheHeadersEnum::TAG)) {
             return $response;
         }
 
         $routeName = $request->getAttribute('routeName');
-        $rootRouteName = Utils::extractRootRouteName($routeName);
+        $rootRouteName = LSCache::extractRootRouteName($routeName);
 
         $params = $request->getAttribute('routeParameters');
 
@@ -30,6 +31,6 @@ class LSTagsMiddleware implements MiddlewareInterface
             $lsTagsString .= ",$rootRouteName" . $id ?: $params['id'];
         }
 
-        return $response->withHeader('X-LiteSpeed-Tag', $lsTagsString);
+        return $response->withHeader(LSCacheHeadersEnum::TAG, $lsTagsString);
     }
 }

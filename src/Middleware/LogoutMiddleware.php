@@ -1,6 +1,8 @@
 <?php
 namespace ACPL\FlarumCache\Middleware;
 
+use ACPL\FlarumCache\LSCacheHeadersEnum;
+use ACPL\FlarumCache\LSCache;
 use Dflydev\FigCookies\FigResponseCookies;
 use Flarum\Http\CookieFactory;
 use Flarum\Http\UrlGenerator;
@@ -29,7 +31,7 @@ class LogoutMiddleware implements MiddlewareInterface
         $logoutUri = new Uri($this->url->to('forum')->route('logout'));
         $response = $handler->handle($request);
         if ($request->getUri()->getPath() === $logoutUri->getPath() && $response instanceof RedirectResponse) {
-            $response = $response->withHeader('X-LiteSpeed-Cache-Control', 'no-cache');
+            $response = $response->withHeader(LSCacheHeadersEnum::CACHE_CONTROL, 'no-cache');
             return $this->withExpiredVaryCookie($response, $request->getAttribute('session'));
         }
 
@@ -38,7 +40,7 @@ class LogoutMiddleware implements MiddlewareInterface
 
     private function withExpiredVaryCookie(Response $response, Session $session): Response
     {
-        $response = FigResponseCookies::remove($response, 'lscache_vary');
-        return FigResponseCookies::set($response, $this->cookie->make('lscache_vary', $session->token())->expire());
+        $response = FigResponseCookies::remove($response, LSCache::VARY_COOKIE);
+        return FigResponseCookies::set($response, $this->cookie->make(LSCache::VARY_COOKIE, $session->token())->expire());
     }
 }

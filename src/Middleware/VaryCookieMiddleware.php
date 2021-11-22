@@ -1,6 +1,8 @@
 <?php
 namespace ACPL\FlarumCache\Middleware;
 
+use ACPL\FlarumCache\LSCache;
+use ACPL\FlarumCache\LSCacheHeadersEnum;
 use Dflydev\FigCookies\FigResponseCookies;
 use Flarum\Http\CookieFactory;
 use Flarum\Http\RequestUtil;
@@ -31,6 +33,11 @@ class VaryCookieMiddleware implements MiddlewareInterface
         $session = $request->getAttribute('session');
         $response = $handler->handle($request);
 
+        $response = $response->withHeader(
+            LSCacheHeadersEnum::VARY,
+            "cookie={$this->cookie->getName(LSCache::VARY_COOKIE)},cookie={$this->cookie->getName('remember')}",
+        );
+
         $user = RequestUtil::getActor($request);
 
         $logoutUri = new Uri($this->url->to('forum')->path('/logout'));
@@ -43,6 +50,6 @@ class VaryCookieMiddleware implements MiddlewareInterface
 
     private function withVaryCookie(Response $response, Session $session): Response
     {
-        return FigResponseCookies::set($response, $this->cookie->make('lscache_vary', $session->token(), $this->config['lifetime'] * 60));
+        return FigResponseCookies::set($response, $this->cookie->make(LSCache::VARY_COOKIE, $session->token(), $this->config['lifetime'] * 60));
     }
 }
