@@ -6,6 +6,7 @@ use ACPL\FlarumCache\LSCache;
 use Flarum\Http\RequestUtil;
 use Flarum\Post\Post;
 use Flarum\Settings\SettingsRepositoryInterface;
+use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Psr\Http\Message\ResponseInterface;
@@ -17,9 +18,10 @@ class LSCacheMiddleware implements MiddlewareInterface
 {
     private SettingsRepositoryInterface $settings;
 
-    public function __construct(SettingsRepositoryInterface $settings)
+    public function __construct(SettingsRepositoryInterface $settings, ConfigRepository $config)
     {
         $this->settings = $settings;
+        $this->config = $config->get('session');
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -36,7 +38,8 @@ class LSCacheMiddleware implements MiddlewareInterface
         $params = $request->getAttribute('routeParameters');
 
         if ($routeName === 'lscache.csrf') {
-            return $response->withHeader(LSCacheHeadersEnum::CACHE_CONTROL, 'no-cache');
+            $sessionTTL = $this->config['lifetime'] * 60;
+            return $response->withHeader(LSCacheHeadersEnum::CACHE_CONTROL, "private,max-age=$sessionTTL");
         }
 
         //Purge cache
