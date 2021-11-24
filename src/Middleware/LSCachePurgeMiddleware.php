@@ -33,11 +33,10 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
             return $response;
         }
 
-        $currentRoute = $request->getUri()->getPath();
         $routeName = $request->getAttribute('routeName');
         $params = $request->getAttribute('routeParameters');
 
-        $purgeParams = [$currentRoute];
+        $purgeParams = [];
 
         if (Str::endsWith($routeName, ['.create', '.update', '.delete'])) {
             $rootRouteName = LSCache::extractRootRouteName($routeName);
