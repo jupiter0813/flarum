@@ -36,6 +36,7 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
         $routeName = $request->getAttribute('routeName');
         $params = $request->getAttribute('routeParameters');
 
+        $shouldReturnHeader = false;
         $purgeParams = [];
 
         $stale = $this->settings->get('acpl-lscache.serve_stale');
@@ -46,6 +47,7 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
         if (Str::endsWith($routeName, ['.create', '.update', '.delete'])) {
             $rootRouteName = LSCache::extractRootRouteName($routeName);
             array_push($purgeParams, "tag=$rootRouteName.index");
+            $shouldReturnHeader = true;
 
             if (!empty($params) && !empty($params['id'])) {
                 array_push($purgeParams, "tag=$rootRouteName{$params['id']}");
@@ -57,6 +59,7 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
 
         if ($isDiscussion || $isPost) {
             array_push($purgeParams, 'tag=default', 'tag=index');
+            $shouldReturnHeader = true;
 
             $purgeList = $this->settings->get('acpl-lscache.purge_on_discussion_update');
             if (!empty($purgeList)) {
@@ -67,11 +70,28 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
         }
 
         if ($isPost) {
-            $postId = Arr::get($request->getParsedBody(), 'data.id');
-            if ($postId) {
-                $discussionId = Post::find($postId)->discussion_id;
-                array_push($purgeParams, "tag=discussions$discussionId", "tag=discussion$discussionId");
+            $body = $request->getParsedBody();
+
+            // When a new post is added
+            $discussionId = Arr::get($body, 'data.relationships.discussion.data.id');
+
+            if (!$discussionId) {
+                // When an existing post is edited or deleted
+                $postId = Arr::get($body, 'data.id');
+
+                if ($postId) {
+                    $discussionId = Post::find($postId)->discussion_id;
+                }
             }
+
+            if ($discussionId) {
+                array_push($purgeParams, "tag=discussions$discussionId", "tag=discussion$discussionId");
+                $shouldReturnHeader = true;
+            }
+        }
+
+        if (!$shouldReturnHeader) {
+            return $response;
         }
 
         return $response->withHeader(LSCacheHeadersEnum::PURGE, implode(',', $purgeParams));
