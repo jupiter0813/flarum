@@ -1,10 +1,13 @@
 acpl-lscache:
   admin:
     public_cache_ttl_label: 'Default public cache TTL'
-    public_cache_ttl_help: 'Specify how long, in seconds, public pages are cached. Default value is 300 seconds'
+    public_cache_ttl_help: 'Specify how long, in seconds, public pages are cached. Default value is 300 seconds.'
+
+    serve_stale_label: 'Serve Stale'
+    serve_stale_help: 'If ON, the stale copy of a cached page will be shown to visitors until a new cache copy is available. Reduces the server load for following visits. If OFF, the page will be dynamically generated while visitors wait. By design, this option may serve stale content. Do not enable this option, if that is not OK with you.'
 
     purge_on_discussion_update_label: 'Purge URLs or Tags when a discussion or post is updated'
-    purge_on_discussion_update_help: 'Specify one URL or Tag per line. Url should start with <code>/</code>, e.g. <code>/rankings</code> and cache Tag should start with <code>tag=</code>, e.g. <code>tag=rankings</code>. This extension tags every route and for example if you have a lot of routes that you would like to purge, it is better to add a rule in .htaccess with a regular expression that will tag the routes and here in the settings enter only this tag. This method will be much faster. <a>Learn more</a>. By default, the cache for the homepage is purged, as well as the cache for the updated discussions'
+    purge_on_discussion_update_help: 'Specify one URL or Tag per line. Url should start with <code>/</code>, e.g. <code>/rankings</code> and cache Tag should start with <code>tag=</code>, e.g. <code>tag=rankings</code>. This extension tags every route and for example if you have a lot of routes that you would like to purge, it is better to add a rule in .htaccess with a regular expression that will tag the routes and here in the settings enter only this tag. This method will be much faster. <a>Learn more</a>. By default, the cache for the homepage is purged, as well as the cache for the updated discussions.'
 
     purge_all: 'Purge all LSCache'
     purge_all_success: 'Notified LiteSpeed Web Server to purge all LSCache entries'

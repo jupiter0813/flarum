@@ -38,6 +38,11 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
 
         $purgeParams = [];
 
+        $stale = $this->settings->get('acpl-lscache.serve_stale');
+        if ($stale) {
+            array_push($purgeParams, 'stale');
+        }
+
         if (Str::endsWith($routeName, ['.create', '.update', '.delete'])) {
             $rootRouteName = LSCache::extractRootRouteName($routeName);
             array_push($purgeParams, "tag=$rootRouteName.index");

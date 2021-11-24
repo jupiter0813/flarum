@@ -12,6 +12,12 @@ app.initializers.add('acpl-lscache', () => {
       type: 'number',
       min: 30,
     })
+    .registerSetting({
+      setting: 'acpl-lscache.serve_stale',
+      label: app.translator.trans('acpl-lscache.admin.serve_stale_label'),
+      help: app.translator.trans('acpl-lscache.admin.serve_stale_help'),
+      type: 'boolean',
+    })
     .registerSetting(function () {
       return (
         <div className="Form-group">
