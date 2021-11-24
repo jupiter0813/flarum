@@ -28,7 +28,7 @@ class LoginMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $loginUri = new Uri($this->url->to('forum')->path('/login'));
+        $loginUri = new Uri($this->url->to('forum')->route('login'));
 
         $response = $handler->handle($request);
 
