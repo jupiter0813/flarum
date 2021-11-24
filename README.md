@@ -30,7 +30,7 @@ composer require acpl/flarum-lscache:"*"
     RewriteRule .* - [E=Cache-Control:private]
 </IfModule>
 ```
-Rules in `.htaccess` have a higher priority than those added by the extension. For example, you can exclude specific URLs from the cache or change their expiration time. For more options, see here: [https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules](https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules)
+You can also add your own rules. For more information see here: [https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules](https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules)
 
 
 ### Updating
