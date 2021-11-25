@@ -1,8 +1,8 @@
 <?php
 namespace ACPL\FlarumCache\Middleware;
 
-use ACPL\FlarumCache\LSCacheHeadersEnum;
 use ACPL\FlarumCache\LSCache;
+use ACPL\FlarumCache\LSCacheHeadersEnum;
 use Flarum\Post\Post;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Support\Arr;
@@ -34,7 +34,14 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
         }
 
         $routeName = $request->getAttribute('routeName');
-        $params = $request->getAttribute('routeParameters');
+
+        $isDiscussion = Str::startsWith($routeName, 'discussions');
+        $body = $request->getParsedBody();
+
+        // If this is just an update of the last read post, there is no point in clearing the public cache
+        if ($isDiscussion && Arr::get($body, 'data.attributes.lastReadPostNumber')) {
+            return $response;
+        }
 
         $shouldReturnHeader = false;
         $purgeParams = [];
@@ -44,34 +51,27 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
             array_push($purgeParams, 'stale');
         }
 
-        if (Str::endsWith($routeName, ['.create', '.update', '.delete'])) {
-            $rootRouteName = LSCache::extractRootRouteName($routeName);
-            array_push($purgeParams, "tag=$rootRouteName.index");
-            $shouldReturnHeader = true;
+        $params = $request->getAttribute('routeParameters');
 
-            if (!empty($params) && !empty($params['id'])) {
-                array_push($purgeParams, "tag=$rootRouteName{$params['id']}");
-            }
-        }
-
-        $isDiscussion = Str::startsWith($routeName, 'discussions');
         $isPost = Str::startsWith($routeName, 'posts');
 
         if ($isDiscussion || $isPost) {
-            array_push($purgeParams, 'tag=default', 'tag=index');
-            $shouldReturnHeader = true;
-
             $purgeList = $this->settings->get('acpl-lscache.purge_on_discussion_update');
             if (!empty($purgeList)) {
                 $purgeList = explode("\n", $purgeList);
                 $purgeList = array_filter($purgeList, fn($item) => Str::startsWith($item, ['/', 'tag=']));
                 $purgeParams = array_merge($purgeParams, $purgeList);
+                $shouldReturnHeader = true;
+            }
+
+            // If this is a post update, we don't need to clear the home page cache
+            if ($routeName !== 'posts.update') {
+                array_push($purgeParams, 'tag=default', 'tag=index');
+                $shouldReturnHeader = true;
             }
         }
 
         if ($isPost) {
-            $body = $request->getParsedBody();
-
             // When a new post is added
             $discussionId = Arr::get($body, 'data.relationships.discussion.data.id');
 
@@ -87,6 +87,16 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
             if ($discussionId) {
                 array_push($purgeParams, "tag=discussions$discussionId", "tag=discussion$discussionId");
                 $shouldReturnHeader = true;
+            }
+        }
+
+        if (!$isDiscussion && Str::endsWith($routeName, ['.create', '.update', '.delete'])) {
+            $rootRouteName = LSCache::extractRootRouteName($routeName);
+            array_push($purgeParams, "tag=$rootRouteName.index");
+            $shouldReturnHeader = true;
+
+            if (!empty($params) && !empty($params['id'])) {
+                array_push($purgeParams, "tag=$rootRouteName{$params['id']}");
             }
         }
 
