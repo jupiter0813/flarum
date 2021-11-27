@@ -43,13 +43,7 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
             return $response;
         }
 
-        $shouldReturnHeader = false;
         $purgeParams = [];
-
-        $stale = $this->settings->get('acpl-lscache.serve_stale');
-        if ($stale) {
-            array_push($purgeParams, 'stale');
-        }
 
         $params = $request->getAttribute('routeParameters');
 
@@ -61,13 +55,11 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
                 $purgeList = explode("\n", $purgeList);
                 $purgeList = array_filter($purgeList, fn($item) => Str::startsWith($item, ['/', 'tag=']));
                 $purgeParams = array_merge($purgeParams, $purgeList);
-                $shouldReturnHeader = true;
             }
 
             // If this is a post update, we don't need to clear the home page cache
             if ($routeName !== 'posts.update') {
                 array_push($purgeParams, 'tag=default', 'tag=index');
-                $shouldReturnHeader = true;
             }
         }
 
@@ -88,22 +80,24 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
 
             if ($discussionId) {
                 array_push($purgeParams, "tag=discussions$discussionId", "tag=discussion$discussionId");
-                $shouldReturnHeader = true;
             }
         }
 
         if (!$isDiscussion && Str::endsWith($routeName, ['.create', '.update', '.delete'])) {
             $rootRouteName = LSCache::extractRootRouteName($routeName);
             array_push($purgeParams, "tag=$rootRouteName.index");
-            $shouldReturnHeader = true;
 
             if (!empty($params) && !empty($params['id'])) {
                 array_push($purgeParams, "tag=$rootRouteName{$params['id']}");
             }
         }
 
-        if (!$shouldReturnHeader) {
+        if (count($purgeParams) < 1) {
             return $response;
+        }
+
+        if ($this->settings->get('acpl-lscache.serve_stale')) {
+            array_unshift($purgeParams, 'stale');
         }
 
         return $response->withHeader(LSCacheHeadersEnum::PURGE, implode(',', $purgeParams));
