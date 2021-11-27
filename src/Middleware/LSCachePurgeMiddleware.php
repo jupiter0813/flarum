@@ -72,7 +72,6 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
         }
 
         if ($isPost) {
-            // When a new post is added
             $discussionId = Arr::get($body, 'data.relationships.discussion.data.id');
 
             if (!$discussionId) {
@@ -82,6 +81,9 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
                 if ($postId) {
                     $discussionId = Post::find($postId)->discussion_id;
                 }
+            } else {
+                // When a new post is added
+                array_push($purgeParams, 'tag=discussions.index');
             }
 
             if ($discussionId) {
