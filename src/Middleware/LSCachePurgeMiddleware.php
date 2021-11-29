@@ -53,12 +53,14 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
             $purgeList = $this->settings->get('acpl-lscache.purge_on_discussion_update');
             if (!empty($purgeList)) {
                 $purgeList = explode("\n", $purgeList);
+                // Get only valid items
                 $purgeList = array_filter($purgeList, fn($item) => Str::startsWith($item, ['/', 'tag=']));
                 $purgeParams = array_merge($purgeParams, $purgeList);
             }
 
             // If this is a post update, we don't need to clear the home page cache
-            if ($routeName !== 'posts.update') {
+            $isPostUpdate = $routeName === 'posts.update';
+            if (($isPostUpdate && Arr::has($body, 'data.attributes.isHidden')) || !$isPostUpdate) {
                 array_push($purgeParams, 'tag=default', 'tag=index', 'tag=discussions.index');
             }
         }
@@ -80,9 +82,13 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
             }
         }
 
-        if (!$isDiscussion && Str::endsWith($routeName, ['.create', '.update', '.delete'])) {
+        if (Str::endsWith($routeName, ['.create', '.update', '.delete'])) {
             $rootRouteName = LSCache::extractRootRouteName($routeName);
-            array_push($purgeParams, "tag=$rootRouteName.index");
+
+            // discussions.index is handled earlier
+            if (!$isDiscussion) {
+                array_push($purgeParams, "tag=$rootRouteName.index");
+            }
 
             if (!empty($params) && !empty($params['id'])) {
                 array_push($purgeParams, "tag=$rootRouteName{$params['id']}");
