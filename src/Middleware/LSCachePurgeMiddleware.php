@@ -59,7 +59,7 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
 
             // If this is a post update, we don't need to clear the home page cache
             if ($routeName !== 'posts.update') {
-                array_push($purgeParams, 'tag=default', 'tag=index');
+                array_push($purgeParams, 'tag=default', 'tag=index', 'tag=discussions.index');
             }
         }
 
@@ -73,9 +73,6 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
                 if ($postId) {
                     $discussionId = Post::find($postId)->discussion_id;
                 }
-            } else {
-                // When a new post is added
-                array_push($purgeParams, 'tag=discussions.index');
             }
 
             if ($discussionId) {
