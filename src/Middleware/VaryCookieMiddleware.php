@@ -35,7 +35,7 @@ class VaryCookieMiddleware implements MiddlewareInterface
 
         $response = $response->withHeader(
             LSCacheHeadersEnum::VARY,
-            "cookie={$this->cookie->getName(LSCache::VARY_COOKIE)},cookie={$this->cookie->getName('remember')}",
+            "cookie={$this->cookie->getName(LSCache::VARY_COOKIE)},cookie={$this->cookie->getName('remember')},cookie=locale",
         );
 
         $user = RequestUtil::getActor($request);

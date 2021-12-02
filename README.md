@@ -23,7 +23,7 @@ composer require acpl/flarum-lscache:"*"
     RewriteEngine On
     RewriteCond %{REQUEST_METHOD} ^HEAD|GET$
     # Detection of logged-in user.
-    RewriteRule .* - [E="Cache-Vary:flarum_remember,flarum_lscache_vary"]
+    RewriteRule .* - [E="Cache-Vary:flarum_remember,flarum_lscache_vary,locale"]
     # If you have a non-default path to the admin panel, change "admin" to match.
     RewriteCond %{ORG_REQ_URI} !/admin
     # Enable private cache for admin panel. If it causes problems replace "private" with "no-cache".
