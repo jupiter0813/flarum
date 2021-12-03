@@ -50,12 +50,12 @@ class LSCacheMiddleware implements MiddlewareInterface
         //Guest only cache for now
         $user = RequestUtil::getActor($request);
         if ($user->isGuest()) {
-            array_push($lscacheParams, 'public');
+            $lscacheParams[] = 'public';
 
             $publicTTL = $this->settings->get('acpl-lscache.public_cache_ttl') ?: 300;
-            array_push($lscacheParams, "max-age=$publicTTL");
+            $lscacheParams[] = "max-age=$publicTTL";
         } else {
-            array_push($lscacheParams, 'no-cache');
+            $lscacheParams[] = 'no-cache';
         }
 
         //TODO user group cache vary https://docs.litespeedtech.com/lscache/devguide/#cache-vary

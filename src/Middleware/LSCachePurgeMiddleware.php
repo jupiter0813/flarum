@@ -87,11 +87,11 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
 
             // discussions.index is handled earlier
             if (!$isDiscussion) {
-                array_push($purgeParams, "tag=$rootRouteName.index");
+                $purgeParams[] = "tag=$rootRouteName.index";
             }
 
             if (!empty($params) && !empty($params['id'])) {
-                array_push($purgeParams, "tag=$rootRouteName{$params['id']}");
+                $purgeParams[] = "tag=$rootRouteName{$params['id']}";
             }
         }
 
