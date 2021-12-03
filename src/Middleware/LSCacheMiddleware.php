@@ -5,6 +5,7 @@ use ACPL\FlarumCache\LSCacheHeadersEnum;
 use Flarum\Http\RequestUtil;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
+use Illuminate\Support\Str;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -34,6 +35,10 @@ class LSCacheMiddleware implements MiddlewareInterface
         }
 
         $routeName = $request->getAttribute('routeName');
+
+        if (Str::startsWith($routeName, ['auth', 'fof-oauth'])) {
+            return $response->withHeader(LSCacheHeadersEnum::CACHE_CONTROL, 'no-cache');
+        }
 
         if ($routeName === 'lscache.csrf') {
             $sessionTTL = $this->config['lifetime'] * 60;
