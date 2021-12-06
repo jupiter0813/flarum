@@ -42,10 +42,10 @@ app.initializers.add('acpl-lscache', () => {
     .registerSetting(function () {
       return (
         <div className="Form-group">
-          <label htmlFor="purge_link_list">{app.translator.trans('acpl-lscache.admin.cache_exclude_label')}</label>
+          <label htmlFor="exclude_link_list">{app.translator.trans('acpl-lscache.admin.cache_exclude_label')}</label>
           <div className="helpText">{app.translator.trans('acpl-lscache.admin.cache_exclude_help')}</div>
           <textarea
-            id="purge_link_list"
+            id="exclude_link_list"
             className="FormControl"
             rows={4}
             bidi={
