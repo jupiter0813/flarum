@@ -6,6 +6,7 @@ use ACPL\FlarumCache\LSCacheHeadersEnum;
 use Flarum\Http\RequestUtil;
 use Flarum\Post\Post;
 use Flarum\Settings\SettingsRepositoryInterface;
+use http\Env\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Psr\Http\Message\ResponseInterface;
