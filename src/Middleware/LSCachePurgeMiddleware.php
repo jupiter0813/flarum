@@ -3,6 +3,7 @@ namespace ACPL\FlarumCache\Middleware;
 
 use ACPL\FlarumCache\LSCache;
 use ACPL\FlarumCache\LSCacheHeadersEnum;
+use Flarum\Http\RequestUtil;
 use Flarum\Post\Post;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Support\Arr;
@@ -93,6 +94,12 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
             if (!empty($params) && !empty($params['id'])) {
                 $purgeParams[] = "tag=$rootRouteName{$params['id']}";
             }
+        }
+
+        //Clear user profile cache when updating FriendsOfFlarum/masquerade fields
+        if ($routeName === 'masquerade.api.configure.save') {
+            $user = RequestUtil::getActor($request);
+            $purgeParams[] = "tag=users$user->id,tag=masquerade$user->id";
         }
 
         if (count($purgeParams) < 1) {
