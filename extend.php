@@ -14,6 +14,7 @@ namespace ACPL\FlarumCache;
 use ACPL\FlarumCache\Api\Controller\LSCacheCsrfResponseController;
 use ACPL\FlarumCache\Api\Controller\PurgeLSCacheController;
 use ACPL\FlarumCache\Command\LSCacheClearCommand;
+use ACPL\FlarumCache\Listener\ClearingCacheListener;
 use ACPL\FlarumCache\Middleware\LoginMiddleware;
 use ACPL\FlarumCache\Middleware\LogoutMiddleware;
 use ACPL\FlarumCache\Middleware\LSCacheControlMiddleware;
@@ -21,6 +22,7 @@ use ACPL\FlarumCache\Middleware\LSCachePurgeMiddleware;
 use ACPL\FlarumCache\Middleware\LSTagsMiddleware;
 use ACPL\FlarumCache\Middleware\VaryCookieMiddleware;
 use Flarum\Extend;
+use Flarum\Foundation\Event\ClearingCache;
 use Flarum\Http\Middleware\CheckCsrfToken;
 use Flarum\Http\Middleware\StartSession;
 
@@ -55,6 +57,7 @@ return [
     (new Extend\Middleware('api'))->add(LSCachePurgeMiddleware::class),
 
     // Purge cache
-    (new Extend\Routes('api'))->delete('/lscache-purge', 'lscache.purge', PurgeLSCacheController::class),
+    (new Extend\Routes('api'))->get('/lscache-purge', 'lscache.purge', PurgeLSCacheController::class),
     (new Extend\Console())->command(LSCacheClearCommand::class),
+    (new Extend\Event())->listen(ClearingCache::class, ClearingCacheListener::class),
 ];

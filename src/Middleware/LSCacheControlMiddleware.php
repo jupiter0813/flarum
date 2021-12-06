@@ -53,6 +53,11 @@ class LSCacheControlMiddleware implements MiddlewareInterface
             }
         }
 
+        //Exclude purge API route
+        if ($routeName === 'lscache.purge') {
+            return $this->withCacheControlHeader($response, 'no-cache');
+        }
+
         //Cache CSRF privately
         if ($routeName === 'lscache.csrf') {
             $sessionTTL = $this->config['lifetime'] * 60;

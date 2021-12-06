@@ -26,8 +26,8 @@ composer require acpl/flarum-lscache:"*"
     RewriteRule .* - [E="Cache-Vary:flarum_remember,flarum_lscache_vary,locale"]
     # If you have a non-default path to the admin panel, change "admin" to match.
     RewriteCond %{ORG_REQ_URI} !/admin
-    # Enable private cache for admin panel. If it causes problems replace "private" with "no-cache".
-    RewriteRule .* - [E=Cache-Control:private]
+    # Enable private cache for admin panel. If it causes issues set [E=Cache-Control:no-cache]
+    RewriteRule .* - [E=Cache-Control:private,max-age=300]
 </IfModule>
 ```
 You can also add your own rules. For more information see here: [https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules](https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules)
@@ -37,13 +37,12 @@ You can also add your own rules. For more information see here: [https://docs.li
 
 ```sh
 composer update acpl/flarum-lscache:"*"
-
 php flarum migrate
-
 php flarum cache:clear
 ```
-You can clear the LSCache in the admin panel. The option is available under the standard Flarum cache clearing option.
-There is also the `flarum lscache:clear --userId [adminId]` command, but you must know the admin id to use it. Eg. `flarum lscache:clear --userId 9`. The admin id is needed to authorize the request. This command will probably be replaced by a better solution soon.
+When you clear the Flarum cache, the LSCache is cleared automatically.
+
+You can clear LSCache without clearing the Flarum cache in the admin panel. The option is available under the standard Flarum cache clearing option. There is also the `php flarum lscache:clear` command.
 
 ## Links
 

@@ -8,7 +8,7 @@ function handleClearLSCache() {
   app
     .request({
       url: `${app.forum.attribute('apiUrl')}/lscache-purge`,
-      method: 'DELETE',
+      method: 'GET',
     })
     .then(() => {
       app.alerts.show({ type: 'success' }, app.translator.trans('acpl-lscache.admin.purge_all_success'));
