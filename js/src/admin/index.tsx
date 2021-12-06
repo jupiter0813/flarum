@@ -38,6 +38,23 @@ app.initializers.add('acpl-lscache', () => {
           />
         </div>
       );
+    })
+    .registerSetting(function () {
+      return (
+        <div className="Form-group">
+          <label htmlFor="purge_link_list">{app.translator.trans('acpl-lscache.admin.cache_exclude_label')}</label>
+          <div className="helpText">{app.translator.trans('acpl-lscache.admin.cache_exclude_help')}</div>
+          <textarea
+            id="purge_link_list"
+            className="FormControl"
+            rows={4}
+            bidi={
+              //@ts-ignore
+              this.setting('acpl-lscache.cache_exclude')
+            }
+          />
+        </div>
+      );
     });
 
   addPurgeLSCacheButton();

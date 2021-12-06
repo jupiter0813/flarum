@@ -9,5 +9,8 @@ acpl-lscache:
     purge_on_discussion_update_label: 'Purge URLs or Tags when a discussion or post is updated'
     purge_on_discussion_update_help: 'Specify one URL or Tag per line. Url should start with <code>/</code>, e.g. <code>/rankings</code> and cache Tag should start with <code>tag=</code>, e.g. <code>tag=rankings</code>. This extension tags every route and for example if you have a lot of routes that you would like to purge, it is better to add a rule in .htaccess with a regular expression that will tag the routes and here in the settings enter only this tag. This method will be much faster. <a>Learn more</a>. By default, the cache for the homepage is purged, as well as the cache for the updated discussions.'
 
+    cache_exclude_label: 'Do not cache paths'
+    cache_exclude_help: 'Paths containing these strings will not be cached. For example, for <code>/mypath/mypage?aa=bb</code>, <code>mypage?aa=</code> can be used here. To match the beginning, add <code>^</code> to the beginning of the item. To do an exact match, add <code>$</code> to the end of the URL. One per line.'
+
     purge_all: 'Purge all LSCache'
     purge_all_success: 'Notified LiteSpeed Web Server to purge all LSCache entries'

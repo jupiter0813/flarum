@@ -11,7 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class LSCacheMiddleware implements MiddlewareInterface
+class LSCacheControlMiddleware implements MiddlewareInterface
 {
     private SettingsRepositoryInterface $settings;
     /**
@@ -35,14 +35,28 @@ class LSCacheMiddleware implements MiddlewareInterface
         }
 
         $routeName = $request->getAttribute('routeName');
-
+        //Exclude FriendsOfFlarum/OAuth routes
         if (Str::startsWith($routeName, ['auth', 'fof-oauth'])) {
-            return $response->withHeader(LSCacheHeadersEnum::CACHE_CONTROL, 'no-cache');
+            return $this->withCacheControlHeader($response, 'no-cache');
         }
 
+        //Exclude paths specified in settings
+        $excludedPaths = Str::of($this->settings->get('acpl-lscache.cache_exclude'));
+        if ($excludedPaths->isNotEmpty()) {
+            $excludedPathsArr = $excludedPaths->explode("\n");
+            $currentPath = Str::of($request->getUri()->getPath());
+
+            foreach ($excludedPathsArr as $pattern) {
+                if ($currentPath->test('/' . addcslashes($pattern, '/') . '/')) {
+                    return $this->withCacheControlHeader($response, 'no-cache');
+                }
+            }
+        }
+
+        //Cache CSRF privately
         if ($routeName === 'lscache.csrf') {
             $sessionTTL = $this->config['lifetime'] * 60;
-            return $response->withHeader(LSCacheHeadersEnum::CACHE_CONTROL, "private,max-age=$sessionTTL");
+            return $this->withCacheControlHeader($response, "private,max-age=$sessionTTL");
         }
 
         $lscacheParams = [];
@@ -61,6 +75,11 @@ class LSCacheMiddleware implements MiddlewareInterface
         //TODO user group cache vary https://docs.litespeedtech.com/lscache/devguide/#cache-vary
         //TODO private cache
 
-        return $response->withHeader(LSCacheHeadersEnum::CACHE_CONTROL, implode(',', $lscacheParams));
+        return $this->withCacheControlHeader($response, implode(',', $lscacheParams));
+    }
+
+    private function withCacheControlHeader(ResponseInterface $response, string $paramsStr): ResponseInterface
+    {
+        return $response->withHeader(LSCacheHeadersEnum::CACHE_CONTROL, $paramsStr);
     }
 }
