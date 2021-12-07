@@ -1,9 +1,9 @@
 # LiteSpeed Cache for Flarum
 
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/acpl/flarum-lscache)](https://packagist.org/packages/acpl/flarum-lscache) [![Total Downloads](https://img.shields.io/packagist/dt/acpl/flarum-lscache.svg)](https://packagist.org/packages/acpl/flarum-lscache)
+[![Latest Stable Version](https://img.shields.io/packagist/v/acpl/flarum-lscache)](https://packagist.org/packages/acpl/flarum-lscache) [![Total Downloads](https://img.shields.io/packagist/dt/acpl/flarum-lscache.svg)](https://packagist.org/packages/acpl/flarum-lscache) [![Supports latest Flarum](https://flarum-badge-api.davwheat.dev/v1/compat-latest/acpl/flarum-lscache)](https://extiverse.com/extension/acpl/flarum-lscache)
 
-A [Flarum](http://flarum.org) extension. Integrates LSCache with your forum.
+A [Flarum](http://flarum.org) extension. Integrates [LSCache](https://lscache.io/) with your forum.
 
 Requires a LiteSpeed Web Server.
 
@@ -47,7 +47,5 @@ You can clear LSCache without clearing the Flarum cache in the admin panel. The 
 ## Links
 
 - [Packagist](https://packagist.org/packages/acpl/flarum-lscache)
-
 - [GitHub](https://github.com/android-com-pl/flarum-lscache)
-
 - [Discuss](https://discuss.flarum.org/d/29475-litespeed-cache-for-flarum)
