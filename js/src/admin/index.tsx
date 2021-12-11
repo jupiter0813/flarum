@@ -13,6 +13,11 @@ app.initializers.add('acpl-lscache', () => {
       min: 30,
     })
     .registerSetting({
+      setting: 'acpl-lscache.clearing_cache_listener',
+      label: app.translator.trans('acpl-lscache.admin.clearing_cache_listener_label'),
+      type: 'boolean',
+    })
+    .registerSetting({
       setting: 'acpl-lscache.serve_stale',
       label: app.translator.trans('acpl-lscache.admin.serve_stale_label'),
       help: app.translator.trans('acpl-lscache.admin.serve_stale_help'),
