@@ -5,7 +5,7 @@
 
 A [Flarum](http://flarum.org) extension. Integrates [LSCache](https://lscache.io/) with your forum.
 
-Requires a LiteSpeed Web Server.
+Requires a LiteSpeed Web Server or OpenLiteSpeed.
 
 # Installation
 
