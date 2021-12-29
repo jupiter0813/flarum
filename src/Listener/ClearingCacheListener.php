@@ -6,7 +6,6 @@ use ACPL\FlarumCache\Command\LSCacheClearCommand;
 use Exception;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\NullOutput;
 
 class ClearingCacheListener
