@@ -1,4 +1,5 @@
 <?php
+
 namespace ACPL\FlarumCache\Middleware;
 
 use ACPL\FlarumCache\LSCacheHeadersEnum;
@@ -30,7 +31,7 @@ class LSCacheControlMiddleware implements MiddlewareInterface
         $response = $handler->handle($request);
         $method = $request->getMethod();
 
-        if (!in_array($method, ['GET', 'HEAD']) || $response->hasHeader(LSCacheHeadersEnum::CACHE_CONTROL)) {
+        if (! in_array($method, ['GET', 'HEAD']) || $response->hasHeader(LSCacheHeadersEnum::CACHE_CONTROL)) {
             return $response;
         }
 
@@ -47,7 +48,7 @@ class LSCacheControlMiddleware implements MiddlewareInterface
             $currentPath = Str::of($request->getUri()->getPath());
 
             foreach ($excludedPathsArr as $pattern) {
-                if ($currentPath->test('/' . addcslashes($pattern, '/') . '/')) {
+                if ($currentPath->test('/'.addcslashes($pattern, '/').'/')) {
                     return $this->withCacheControlHeader($response, 'no-cache');
                 }
             }
@@ -61,6 +62,7 @@ class LSCacheControlMiddleware implements MiddlewareInterface
         //Cache CSRF privately
         if ($routeName === 'lscache.csrf') {
             $sessionTTL = $this->config['lifetime'] * 60;
+
             return $this->withCacheControlHeader($response, "private,max-age=$sessionTTL");
         }
 

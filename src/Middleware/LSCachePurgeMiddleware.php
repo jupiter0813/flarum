@@ -1,4 +1,5 @@
 <?php
+
 namespace ACPL\FlarumCache\Middleware;
 
 use ACPL\FlarumCache\LSCache;
@@ -27,7 +28,7 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
         $response = $handler->handle($request);
 
         if (
-            !in_array($request->getMethod(), ['POST', 'PUT', 'PATCH', 'DELETE']) ||
+            ! in_array($request->getMethod(), ['POST', 'PUT', 'PATCH', 'DELETE']) ||
             $response->hasHeader(LSCacheHeadersEnum::PURGE) ||
             $response->getStatusCode() >= 400
         ) {
@@ -52,16 +53,16 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
 
         if ($isDiscussion || $isPost) {
             $purgeList = $this->settings->get('acpl-lscache.purge_on_discussion_update');
-            if (!empty($purgeList)) {
+            if (! empty($purgeList)) {
                 $purgeList = explode("\n", $purgeList);
                 // Get only valid items
-                $purgeList = array_filter($purgeList, fn($item) => Str::startsWith($item, ['/', 'tag=']));
+                $purgeList = array_filter($purgeList, fn ($item) => Str::startsWith($item, ['/', 'tag=']));
                 $purgeParams = array_merge($purgeParams, $purgeList);
             }
 
             // If this is a post update, we don't need to clear the home page cache
             $isPostUpdate = $routeName === 'posts.update';
-            if (($isPostUpdate && Arr::has($body, 'data.attributes.isHidden')) || !$isPostUpdate) {
+            if (($isPostUpdate && Arr::has($body, 'data.attributes.isHidden')) || ! $isPostUpdate) {
                 array_push($purgeParams, 'tag=default', 'tag=index', 'tag=discussions.index');
             }
         }
@@ -69,7 +70,7 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
         if ($isPost) {
             $discussionId = Arr::get($body, 'data.relationships.discussion.data.id');
 
-            if (!$discussionId) {
+            if (! $discussionId) {
                 // When an existing post is edited or deleted
                 $postId = Arr::get($body, 'data.id');
 
@@ -87,11 +88,11 @@ class LSCachePurgeMiddleware implements MiddlewareInterface
             $rootRouteName = LSCache::extractRootRouteName($routeName);
 
             // discussions.index is handled earlier
-            if (!$isDiscussion) {
+            if (! $isDiscussion) {
                 $purgeParams[] = "tag=$rootRouteName.index";
             }
 
-            if (!empty($params) && !empty($params['id'])) {
+            if (! empty($params) && ! empty($params['id'])) {
                 $purgeParams[] = "tag=$rootRouteName{$params['id']}";
             }
         }

@@ -36,6 +36,7 @@ class LSCacheClearCommand extends AbstractCommand
         $this->settings->set('acpl-lscache.purgeKey', $key);
 
         $client = new Client();
+
         try {
             //GET does not require the Flarum API key
             $client->request('GET', $this->url->to('api')->route('lscache.purge'), [

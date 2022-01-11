@@ -1,4 +1,5 @@
 <?php
+
 namespace ACPL\FlarumCache\Middleware;
 
 use ACPL\FlarumCache\LSCache;
