@@ -27,9 +27,9 @@ use Flarum\Http\Middleware\CheckCsrfToken;
 use Flarum\Http\Middleware\StartSession;
 
 return [
-    (new Extend\Frontend('admin'))->js(__DIR__ . '/js/dist/admin.js'),
-    (new Extend\Frontend('forum'))->js(__DIR__ . '/js/dist/forum.js'),
-    new Extend\Locales(__DIR__ . '/locale'),
+    (new Extend\Frontend('admin'))->js(__DIR__.'/js/dist/admin.js'),
+    (new Extend\Frontend('forum'))->js(__DIR__.'/js/dist/forum.js'),
+    new Extend\Locales(__DIR__.'/locale'),
 
     // Vary cookie
     (new Extend\Middleware('forum'))->insertAfter(StartSession::class, VaryCookieMiddleware::class),

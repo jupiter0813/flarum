@@ -32,21 +32,22 @@ class PurgeLSCacheController implements RequestHandlerInterface
         }
 
         //If a command is used, use the temporary key because the user is not logged in
-        if (!$canPurge) {
+        if (! $canPurge) {
             $key = $this->settings->get('acpl-lscache.purgeKey');
             $reqKey = $request->getHeaderLine('LSCachePurgeKey');
-            if (!empty($key) && !empty($reqKey) && $key === $reqKey) {
+            if (! empty($key) && ! empty($reqKey) && $key === $reqKey) {
                 $canPurge = true;
             }
         }
 
-        if (!$canPurge) {
+        if (! $canPurge) {
             throw new PermissionDeniedException();
         }
 
         $response = new EmptyResponse();
 
         $stale = $this->settings->get('acpl-lscache.serve_stale') ? 'stale,' : '';
+
         return $response->withHeader(LSCacheHeadersEnum::PURGE, "$stale*");
     }
 }
