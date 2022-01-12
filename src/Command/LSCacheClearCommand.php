@@ -8,10 +8,12 @@ use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Symfony\Component\Console\Input\InputOption;
 
 class LSCacheClearCommand extends AbstractCommand
 {
     protected UrlGenerator $url;
+    private SettingsRepositoryInterface $settings;
 
     public function __construct(UrlGenerator $url, SettingsRepositoryInterface $settings)
     {
@@ -22,12 +24,19 @@ class LSCacheClearCommand extends AbstractCommand
 
     public function configure()
     {
-        $this->setName('lscache:clear')->setDescription('Purge all LsCache.');
+        $this->setName('lscache:clear')
+            ->setDescription('Purge LsCache.')
+            ->addOption(
+                'path',
+                null,
+                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                'The path whose cache you want to purge. E.g. "--path=/test"',
+            );
     }
 
-    protected function fire()
+    protected function fire(): int
     {
-        $this->info('Sending a request to purge all LSCache entries...');
+        $this->info('Sending a request to purge LSCache entries...');
 
         //Create a temporary API key to authorize a request
         $apiKey = new ApiKey();
@@ -35,13 +44,19 @@ class LSCacheClearCommand extends AbstractCommand
         //The key is saved temporarily in the settings. The native Flarum API key is not used because it requires a user ID and in the case of the command the user is not logged in.
         $this->settings->set('acpl-lscache.purgeKey', $key);
 
-        $client = new Client();
+        $options = [
+            'headers' => ['LSCachePurgeKey' => $key],
+        ];
 
+        $paths = $this->input->getOption('path');
+        if (!empty($paths)) {
+            $options['query']['paths'] = $paths;
+        }
+
+        $client = new Client();
         try {
             //GET does not require the Flarum API key
-            $client->request('GET', $this->url->to('api')->route('lscache.purge'), [
-                'headers' => ['LSCachePurgeKey' => $key],
-            ]);
+            $client->request('GET', $this->url->to('api')->route('lscache.purge'), $options);
         } catch (GuzzleException $exception) {
             $this->deleteKey();
             $this->error('Something went wrong while sending the request.');
@@ -50,7 +65,9 @@ class LSCacheClearCommand extends AbstractCommand
         }
 
         $this->deleteKey();
-        $this->info('Notified LiteSpeed Web Server to purge all LSCache entries');
+        $this->info('Notified LiteSpeed Web Server to purge' . (empty($paths) ? ' all' : '') . ' LSCache entries');
+
+        return 0;
     }
 
     private function deleteKey()

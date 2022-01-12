@@ -6,6 +6,7 @@ use ACPL\FlarumCache\LSCacheHeadersEnum;
 use Flarum\Http\RequestUtil;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\Exception\PermissionDeniedException;
+use Illuminate\Support\Arr;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -44,10 +45,15 @@ class PurgeLSCacheController implements RequestHandlerInterface
             throw new PermissionDeniedException();
         }
 
-        $response = new EmptyResponse();
+        $purgeStr = $this->settings->get('acpl-lscache.serve_stale') ? 'stale,' : '';
 
-        $stale = $this->settings->get('acpl-lscache.serve_stale') ? 'stale,' : '';
+        $paths = Arr::get($request->getQueryParams(), 'paths');
+        if (! empty($paths)) {
+            $purgeStr .= implode(',', $paths);
+        } else {
+            $purgeStr .= '*';
+        }
 
-        return $response->withHeader(LSCacheHeadersEnum::PURGE, "$stale*");
+        return (new EmptyResponse())->withHeader(LSCacheHeadersEnum::PURGE, $purgeStr);
     }
 }

@@ -1,8 +1,11 @@
 {
   "name": "acpl/flarum-lscache",
-  "description": "Speed up your forum on LiteSpeed Web server.",
+  "description": "Speed up your forum on LiteSpeed Web Server.",
   "keywords": [
-    "flarum"
+    "flarum",
+    "LSCache",
+    "LiteSpeed",
+    "Cache"
   ],
   "type": "flarum-extension",
   "license": "GPL-3.0-or-later",
