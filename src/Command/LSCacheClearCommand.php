@@ -49,11 +49,12 @@ class LSCacheClearCommand extends AbstractCommand
         ];
 
         $paths = $this->input->getOption('path');
-        if (!empty($paths)) {
+        if (! empty($paths)) {
             $options['query']['paths'] = $paths;
         }
 
         $client = new Client();
+
         try {
             //GET does not require the Flarum API key
             $client->request('GET', $this->url->to('api')->route('lscache.purge'), $options);
@@ -65,7 +66,7 @@ class LSCacheClearCommand extends AbstractCommand
         }
 
         $this->deleteKey();
-        $this->info('Notified LiteSpeed Web Server to purge' . (empty($paths) ? ' all' : '') . ' LSCache entries');
+        $this->info('Notified LiteSpeed Web Server to purge'.(empty($paths) ? ' all' : '').' LSCache entries');
 
         return 0;
     }
