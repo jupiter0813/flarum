@@ -16,9 +16,8 @@ function handleClearLSCache() {
 }
 
 export default () => {
-  extend(StatusWidget.prototype, 'items', (items: ItemList) => {
-    const tools = items.get('tools');
+  extend(StatusWidget.prototype, 'toolsItems', (items: ItemList) => {
 
-    tools.children.push(<Button onclick={handleClearLSCache}>{app.translator.trans('acpl-lscache.admin.purge_all')}</Button>);
+    items.add('clearLSCache', <Button onclick={handleClearLSCache}>{app.translator.trans('acpl-lscache.admin.purge_all')}</Button>)
   });
 };
