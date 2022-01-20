@@ -40,6 +40,22 @@
         "backgroundColor": "#2b82d9",
         "color": "#fff"
       }
+    },
+    "flarum-cli": {
+      "modules": {
+        "admin": true,
+        "forum": true,
+        "js": true,
+        "jsCommon": false,
+        "gitConf": true,
+        "githubActions": true,
+        "prettier": true,
+        "typescript": true,
+        "bundlewatch": false,
+        "backendTesting": false,
+        "editorConfig": true,
+        "styleci": true
+      }
     }
   }
 }
