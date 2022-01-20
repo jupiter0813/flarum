@@ -15,7 +15,7 @@
     "forum": "https://discuss.flarum.org/d/29475-litespeed-cache-for-flarum"
   },
   "require": {
-    "flarum/core": "^1.0.0",
+    "flarum/core": "^1.2",
     "php": "^7.4||^8.0",
     "guzzlehttp/guzzle": "^7.4"
   },
