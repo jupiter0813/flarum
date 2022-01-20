@@ -23,43 +23,19 @@ app.initializers.add('acpl-lscache', () => {
       help: app.translator.trans('acpl-lscache.admin.serve_stale_help'),
       type: 'boolean',
     })
-    .registerSetting(function () {
-      return (
-        <div className="Form-group">
-          <label htmlFor="purge_link_list">{app.translator.trans('acpl-lscache.admin.purge_on_discussion_update_label')}</label>
-          <div className="helpText">
-            {app.translator.trans('acpl-lscache.admin.purge_on_discussion_update_help', {
-              a: <Link href="https://docs.litespeedtech.com/lscache/devguide/controls/#cache-tag" external={true} target="_blank" />,
-            })}
-          </div>
-          <textarea
-            id="purge_link_list"
-            className="FormControl"
-            rows={4}
-            bidi={
-              //@ts-ignore
-              this.setting('acpl-lscache.purge_on_discussion_update')
-            }
-          />
-        </div>
-      );
+    .registerSetting({
+      setting: 'acpl-lscache.purge_on_discussion_update',
+      label: app.translator.trans('acpl-lscache.admin.purge_on_discussion_update_label'),
+      help: app.translator.trans('acpl-lscache.admin.purge_on_discussion_update_help', {
+        a: <Link href="https://docs.litespeedtech.com/lscache/devguide/controls/#cache-tag" external={true} target="_blank" />,
+      }),
+      type: 'textarea',
     })
-    .registerSetting(function () {
-      return (
-        <div className="Form-group">
-          <label htmlFor="exclude_link_list">{app.translator.trans('acpl-lscache.admin.cache_exclude_label')}</label>
-          <div className="helpText">{app.translator.trans('acpl-lscache.admin.cache_exclude_help')}</div>
-          <textarea
-            id="exclude_link_list"
-            className="FormControl"
-            rows={4}
-            bidi={
-              //@ts-ignore
-              this.setting('acpl-lscache.cache_exclude')
-            }
-          />
-        </div>
-      );
+    .registerSetting({
+      setting: 'acpl-lscache.cache_exclude',
+      label: app.translator.trans('acpl-lscache.admin.cache_exclude_label'),
+      help: app.translator.trans('acpl-lscache.admin.cache_exclude_help'),
+      type: 'textarea',
     });
 
   addPurgeLSCacheButton();
