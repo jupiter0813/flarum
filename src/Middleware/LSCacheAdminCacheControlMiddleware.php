@@ -24,17 +24,17 @@ class LSCacheAdminCacheControlMiddleware implements MiddlewareInterface
         $method = $request->getMethod();
 
         $cacheEnabled = $this->settings->get('acpl-lscache.admin_cache');
-        if (!$cacheEnabled) {
+        if (! $cacheEnabled) {
             return $this->withCacheControlHeader($response, 'no-cache');
         }
 
-        if (!in_array($method, ['GET', 'HEAD']) || $response->hasHeader(LSCacheHeadersEnum::CACHE_CONTROL)) {
+        if (! in_array($method, ['GET', 'HEAD']) || $response->hasHeader(LSCacheHeadersEnum::CACHE_CONTROL)) {
             return $response;
         }
 
         $ttl = $this->settings->get('acpl-lscache.admin_cache_ttl');
 
-        return $this->withCacheControlHeader($response, 'private,max-age=' . !empty($ttl) ? $ttl : 300);
+        return $this->withCacheControlHeader($response, 'private,max-age='.! empty($ttl) ? $ttl : 300);
     }
 
     private function withCacheControlHeader(ResponseInterface $response, string $paramsStr): ResponseInterface
