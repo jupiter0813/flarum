@@ -41,7 +41,7 @@ class VaryCookieMiddleware implements MiddlewareInterface
 
         $user = RequestUtil::getActor($request);
 
-        $logoutUri = new Uri($this->url->to('forum')->path('/logout'));
+        $logoutUri = new Uri($this->url->to('forum')->route('logout'));
         if ($user->isGuest() || $request->getUri()->getPath() === $logoutUri->getPath()) {
             return $response;
         }
