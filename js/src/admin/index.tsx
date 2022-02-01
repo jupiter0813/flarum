@@ -18,6 +18,18 @@ app.initializers.add('acpl-lscache', () => {
       type: 'boolean',
     })
     .registerSetting({
+      setting: 'acpl-lscache.admin_cache',
+      label: app.translator.trans('acpl-lscache.admin.admin_cache_label'),
+      type: 'boolean',
+    })
+    .registerSetting({
+      setting: 'acpl-lscache.admin_cache_ttl',
+      label: app.translator.trans('acpl-lscache.admin.admin_cache_ttl_label'),
+      help: app.translator.trans('acpl-lscache.admin.admin_cache_ttl_help'),
+      type: 'number',
+      min: 30,
+    })
+    .registerSetting({
       setting: 'acpl-lscache.serve_stale',
       label: app.translator.trans('acpl-lscache.admin.serve_stale_label'),
       help: app.translator.trans('acpl-lscache.admin.serve_stale_help'),
