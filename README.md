@@ -20,14 +20,6 @@ composer require acpl/flarum-lscache:"*"
 ```apacheconf
 <IfModule LiteSpeed>
     CacheLookup on
-    RewriteEngine On
-    RewriteCond %{REQUEST_METHOD} ^HEAD|GET$
-    # Detection of logged-in user.
-    RewriteRule .* - [E="Cache-Vary:flarum_remember,flarum_lscache_vary,locale"]
-    # If you have a non-default path to the admin panel, change "admin" to match.
-    RewriteCond %{ORG_REQ_URI} !/admin
-    # Enable private cache for admin panel. If it causes issues set [E=Cache-Control:no-cache]
-    RewriteRule .* - [E=Cache-Control:private,max-age=300]
 </IfModule>
 ```
 You can also add your own rules. For more information see here: [https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules](https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules)
@@ -40,12 +32,30 @@ composer update acpl/flarum-lscache:"*"
 php flarum migrate
 php flarum cache:clear
 ```
-When you clear the Flarum cache, the LSCache is cleared automatically.
+When you clear the Flarum cache, the LSCache is cleared automatically. Unless you disable it in the settings.
 
-You can clear LSCache without clearing the Flarum cache in the admin panel. The option is available under the standard Flarum cache clearing option. There is also the `php flarum lscache:clear` command.
+You can clear LSCache without clearing the Flarum cache in the admin panel. The option is available under the standard Flarum cache clearing option. There is also the `php flarum lscache:clear` command. The command supports the `--path` argument. E.g. `php flarum lscache:clear --path=/tags --path=/d/1-test`. You can use it if you want to purge only specific paths instead of the entire cache.
+
+
+### FAQ
+_How do I avoid generating different cache versions for specific query strings? E.g. fbclid._
+
+You can use `CacheKeyModify -qs:[key]`.
+
+Example:
+```apacheconf
+<IfModule LiteSpeed>
+    CacheLookup on
+    
+    CacheKeyModify -qs:fbclid
+    CacheKeyModify -qs:gclid
+    CacheKeyModify -qs:utm*
+    CacheKeyModify -qs:_ga
+</IfModule>
+```
 
 ## Links
 
 - [Packagist](https://packagist.org/packages/acpl/flarum-lscache)
 - [GitHub](https://github.com/android-com-pl/flarum-lscache)
-- [Discuss](https://discuss.flarum.org/d/29475-litespeed-cache-for-flarum)
+- [Discuss](https://discuss.flarum.org/d/29475)
