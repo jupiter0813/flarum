@@ -13,11 +13,6 @@ app.initializers.add('acpl-lscache', () => {
       min: 30,
     })
     .registerSetting({
-      setting: 'acpl-lscache.clearing_cache_listener',
-      label: app.translator.trans('acpl-lscache.admin.clearing_cache_listener_label'),
-      type: 'boolean',
-    })
-    .registerSetting({
       setting: 'acpl-lscache.admin_cache',
       label: app.translator.trans('acpl-lscache.admin.admin_cache_label'),
       type: 'boolean',
@@ -28,6 +23,11 @@ app.initializers.add('acpl-lscache', () => {
       help: app.translator.trans('acpl-lscache.admin.admin_cache_ttl_help'),
       type: 'number',
       min: 30,
+    })
+    .registerSetting({
+      setting: 'acpl-lscache.clearing_cache_listener',
+      label: app.translator.trans('acpl-lscache.admin.clearing_cache_listener_label'),
+      type: 'boolean',
     })
     .registerSetting({
       setting: 'acpl-lscache.serve_stale',
