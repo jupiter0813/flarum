@@ -73,7 +73,7 @@ class LSCacheControlMiddleware implements MiddlewareInterface
         if ($user->isGuest()) {
             $lscacheParams[] = 'public';
 
-            $publicTTL = $this->settings->get('acpl-lscache.public_cache_ttl') ?: 300;
+            $publicTTL = $this->settings->get('acpl-lscache.public_cache_ttl') ?: 604_800;
             $lscacheParams[] = "max-age=$publicTTL";
         } else {
             $lscacheParams[] = 'no-cache';

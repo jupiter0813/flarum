@@ -1,7 +1,7 @@
 acpl-lscache:
   admin:
     public_cache_ttl_label: 'Default public cache TTL'
-    public_cache_ttl_help: 'Specify how long, in seconds, public pages are cached. Default value is 300 seconds.'
+    public_cache_ttl_help: 'Specify how long, in seconds, public pages are cached. Default value is 604800 seconds (one week).'
 
     clearing_cache_listener_label: 'Purge LSCache when Flarum cache is cleared'
 
