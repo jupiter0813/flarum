@@ -1,7 +1,7 @@
 # LiteSpeed Cache for Flarum
 
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/acpl/flarum-lscache)](https://packagist.org/packages/acpl/flarum-lscache) [![Total Downloads](https://img.shields.io/packagist/dt/acpl/flarum-lscache.svg)](https://packagist.org/packages/acpl/flarum-lscache) [![Supports latest Flarum](https://flarum-badge-api.davwheat.dev/v1/compat-latest/acpl/flarum-lscache)](https://extiverse.com/extension/acpl/flarum-lscache)
+[![Latest Stable Version](https://img.shields.io/packagist/v/acpl/flarum-lscache)](https://packagist.org/packages/acpl/flarum-lscache) [![Total Downloads](https://img.shields.io/packagist/dt/acpl/flarum-lscache.svg)](https://packagist.org/packages/acpl/flarum-lscache)
 
 A [Flarum](http://flarum.org) extension. Integrates [LSCache](https://lscache.io/) with your forum.
 
