@@ -32,6 +32,9 @@ return [
     (new Extend\Frontend('forum'))->js(__DIR__.'/js/dist/forum.js'),
     new Extend\Locales(__DIR__.'/locale'),
 
+    // Settings
+    (new Extend\Settings())->default('acpl-lscache.clearing_cache_listener', true),
+
     // Vary cookie
     (new Extend\Middleware('forum'))->insertAfter(StartSession::class, VaryCookieMiddleware::class),
     (new Extend\Middleware('admin'))->insertAfter(StartSession::class, VaryCookieMiddleware::class),
