@@ -8,7 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 /**
- * This controller is used to respond to CSRF requests
+ * This controller is used to respond to CSRF requests.
  */
 class LSCacheCsrfResponseController implements RequestHandlerInterface
 {
