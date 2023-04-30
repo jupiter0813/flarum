@@ -1,62 +1,61 @@
 {
-  "name": "acpl/flarum-lscache",
-  "description": "Speed up your forum on LiteSpeed Web Server.",
-  "keywords": [
-    "flarum",
-    "LSCache",
-    "LiteSpeed",
-    "Cache"
-  ],
-  "type": "flarum-extension",
-  "license": "GPL-3.0-or-later",
-  "support": {
-    "issues": "https://github.com/android-com-pl/flarum-lscache/issues",
-    "source": "https://github.com/android-com-pl/flarum-lscache",
-    "forum": "https://discuss.flarum.org/d/29475-litespeed-cache-for-flarum"
-  },
-  "require": {
-    "flarum/core": "^1.2",
-    "php": "^7.4||^8.0",
-    "guzzlehttp/guzzle": "^7.4"
-  },
-  "authors": [
-    {
-      "name": "Rafał Całka",
-      "email": "rafal.calka@android.com.pl",
-      "role": "Developer"
-    }
-  ],
-  "autoload": {
-    "psr-4": {
-      "ACPL\\FlarumCache\\": "src/"
-    }
-  },
-  "extra": {
-    "flarum-extension": {
-      "title": "LiteSpeed Cache",
-      "category": "feature",
-      "icon": {
-        "name": "fas fa-bolt",
-        "backgroundColor": "#2b82d9",
-        "color": "#fff"
-      }
+    "name": "acpl/flarum-lscache",
+    "description": "Speed up your forum on LiteSpeed Web Server.",
+    "keywords": [
+        "flarum",
+        "LSCache",
+        "LiteSpeed",
+        "Cache"
+    ],
+    "type": "flarum-extension",
+    "license": "GPL-3.0-or-later",
+    "support": {
+        "issues": "https://github.com/android-com-pl/flarum-lscache/issues",
+        "source": "https://github.com/android-com-pl/flarum-lscache",
+        "forum": "https://discuss.flarum.org/d/29475-litespeed-cache-for-flarum"
     },
-    "flarum-cli": {
-      "modules": {
-        "admin": true,
-        "forum": true,
-        "js": true,
-        "jsCommon": false,
-        "gitConf": true,
-        "githubActions": true,
-        "prettier": true,
-        "typescript": true,
-        "bundlewatch": false,
-        "backendTesting": false,
-        "editorConfig": true,
-        "styleci": true,
-        "css": false
-      }
+    "require": {
+        "flarum/core": "^1.7",
+        "php": "^7.4||^8.0"
+    },
+    "authors": [
+        {
+            "name": "Rafał Całka",
+            "homepage": "https://github.com/rafaucau",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "ACPL\\FlarumCache\\": "src/"
+        }
+    },
+    "extra": {
+        "flarum-extension": {
+            "title": "LiteSpeed Cache",
+            "category": "feature",
+            "icon": {
+                "name": "fas fa-bolt",
+                "backgroundColor": "#2b82d9",
+                "color": "#fff"
+            }
+        },
+        "flarum-cli": {
+            "modules": {
+                "admin": true,
+                "forum": true,
+                "js": true,
+                "jsCommon": false,
+                "gitConf": true,
+                "githubActions": true,
+                "prettier": true,
+                "typescript": true,
+                "bundlewatch": false,
+                "backendTesting": false,
+                "editorConfig": true,
+                "styleci": true,
+                "css": false
+            }
+        }
     }
-  }
 }
