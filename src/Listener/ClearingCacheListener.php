@@ -3,8 +3,8 @@
 namespace ACPL\FlarumCache\Listener;
 
 use ACPL\FlarumCache\Command\LSCacheClearCommand;
-use Exception;
 use Flarum\Settings\SettingsRepositoryInterface;
+use Symfony\Component\Console\Exception\ExceptionInterface;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 
@@ -20,9 +20,9 @@ class ClearingCacheListener
     }
 
     /**
-     * @throws Exception
+     * @throws ExceptionInterface
      */
-    public function handle()
+    public function handle(): void
     {
         if ($this->settings->get('acpl-lscache.clearing_cache_listener')) {
             $this->command->run(new ArrayInput([]), new NullOutput());

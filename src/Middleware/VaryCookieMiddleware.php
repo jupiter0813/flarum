@@ -21,14 +21,18 @@ class VaryCookieMiddleware implements MiddlewareInterface
 {
     private CookieFactory $cookie;
     private UrlGenerator $url;
+    private array $session;
 
     public function __construct(CookieFactory $cookie, UrlGenerator $url, ConfigRepository $config)
     {
         $this->cookie = $cookie;
         $this->url = $url;
-        $this->config = $config->get('session');
+        $this->session = $config->get('session');
     }
 
+    /**
+     * @see https://docs.litespeedtech.com/lscache/devguide/advanced/#cache-varies
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $session = $request->getAttribute('session');
@@ -51,6 +55,6 @@ class VaryCookieMiddleware implements MiddlewareInterface
 
     private function withVaryCookie(Response $response, Session $session): Response
     {
-        return FigResponseCookies::set($response, $this->cookie->make(LSCache::VARY_COOKIE, $session->token(), $this->config['lifetime'] * 60));
+        return FigResponseCookies::set($response, $this->cookie->make(LSCache::VARY_COOKIE, $session->token(), $this->session['lifetime'] * 60));
     }
 }

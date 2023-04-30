@@ -15,15 +15,12 @@ use Psr\Http\Server\RequestHandlerInterface;
 class LSCacheControlMiddleware implements MiddlewareInterface
 {
     private SettingsRepositoryInterface $settings;
-    /**
-     * @var mixed
-     */
-    private $config;
+    private array $session;
 
     public function __construct(SettingsRepositoryInterface $settings, ConfigRepository $config)
     {
         $this->settings = $settings;
-        $this->config = $config->get('session');
+        $this->session = $config->get('session');
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -61,7 +58,7 @@ class LSCacheControlMiddleware implements MiddlewareInterface
 
         //Cache CSRF privately
         if ($routeName === 'lscache.csrf') {
-            $sessionTTL = $this->config['lifetime'] * 60;
+            $sessionTTL = $this->session['lifetime'] * 60;
 
             return $this->withCacheControlHeader($response, "private,max-age=$sessionTTL");
         }

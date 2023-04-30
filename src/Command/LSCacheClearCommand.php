@@ -22,7 +22,7 @@ class LSCacheClearCommand extends AbstractCommand
         $this->settings = $settings;
     }
 
-    public function configure()
+    public function configure(): void
     {
         $this->setName('lscache:clear')
             ->setDescription('Purge LsCache.')
@@ -71,7 +71,7 @@ class LSCacheClearCommand extends AbstractCommand
         return 0;
     }
 
-    private function deleteKey()
+    private function deleteKey(): void
     {
         $this->settings->delete('acpl-lscache.purgeKey');
     }
