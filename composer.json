@@ -57,5 +57,24 @@
                 "css": false
             }
         }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "name": "flarum/phpstan",
+            "type": "git",
+            "url": "https://github.com/flarum/phpstan"
+        }
+    ],
+    "require-dev": {
+        "flarum/phpstan": "^1.7"
+    },
+    "scripts": {
+        "analyse:phpstan": "phpstan analyse",
+        "clear-cache:phpstan": "phpstan clear-result-cache"
+    },
+    "scripts-descriptions": {
+        "analyse:phpstan": "Run static analysis"
     }
 }
