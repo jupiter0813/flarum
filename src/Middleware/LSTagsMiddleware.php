@@ -29,7 +29,7 @@ class LSTagsMiddleware implements MiddlewareInterface
         if (! empty($params) && ! empty($params['id'])) {
             // The id parameter contains the slug. We only need the id (int)
             $id = explode('-', $params['id'], 2)[0];
-            $lsTagsString .= ",$rootRouteName".$id ?: $params['id'];
+            $lsTagsString .= ",$rootRouteName".$id;
         }
 
         return $response->withHeader(LSCacheHeadersEnum::TAG, $lsTagsString);
