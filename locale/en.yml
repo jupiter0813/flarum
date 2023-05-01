@@ -5,10 +5,6 @@ acpl-lscache:
 
     clearing_cache_listener_label: 'Purge LSCache when Flarum cache is cleared'
 
-    admin_cache_label: 'Cache admin panel'
-    admin_cache_ttl_label: 'Default admin cache TTL'
-    admin_cache_ttl_help: 'Default value is 300 seconds.'
-
     serve_stale_label: 'Serve Stale'
     serve_stale_help: 'If ON, the stale copy of a cached page will be shown to visitors until a new cache copy is available. Reduces the server load for following visits. If OFF, the page will be dynamically generated while visitors wait. By design, this option may serve stale content. Do not enable this option, if that is not OK with you.'
 

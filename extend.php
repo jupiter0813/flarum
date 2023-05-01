@@ -17,7 +17,6 @@ use ACPL\FlarumCache\Command\LSCacheClearCommand;
 use ACPL\FlarumCache\Listener\ClearingCacheListener;
 use ACPL\FlarumCache\Middleware\LoginMiddleware;
 use ACPL\FlarumCache\Middleware\LogoutMiddleware;
-use ACPL\FlarumCache\Middleware\LSCacheAdminCacheControlMiddleware;
 use ACPL\FlarumCache\Middleware\LSCacheControlMiddleware;
 use ACPL\FlarumCache\Middleware\LSCachePurgeMiddleware;
 use ACPL\FlarumCache\Middleware\LSTagsMiddleware;
@@ -51,7 +50,6 @@ return [
     // Cache routes
     (new Extend\Middleware('forum'))->insertAfter(CheckCsrfToken::class, LSCacheControlMiddleware::class),
     (new Extend\Middleware('api'))->insertAfter(CheckCsrfToken::class, LSCacheControlMiddleware::class),
-    (new Extend\Middleware('admin'))->insertAfter(CheckCsrfToken::class, LSCacheAdminCacheControlMiddleware::class),
 
     // A workaround for the CSRF cache issue. The JS script fetches this path to update the CSRF
     (new Extend\Routes('api'))->get('/lscache-csrf', 'lscache.csrf', LSCacheCsrfResponseController::class),
