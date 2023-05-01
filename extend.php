@@ -32,7 +32,9 @@ return [
     new Extend\Locales(__DIR__.'/locale'),
 
     // Settings
-    (new Extend\Settings())->default('acpl-lscache.clearing_cache_listener', true),
+    (new Extend\Settings())
+        ->default('acpl-lscache.public_cache_ttl', 604_800)
+        ->default('acpl-lscache.clearing_cache_listener', true),
 
     // Vary cookie
     (new Extend\Middleware('forum'))->insertAfter(StartSession::class, VaryCookieMiddleware::class),
