@@ -48,7 +48,7 @@ You can use `CacheKeyModify -qs:[key]`.
 Example:
 ```apacheconf
 <IfModule LiteSpeed>
-    CacheLookup on
+    #... Rest of the code
     
     CacheKeyModify -qs:fbclid
     CacheKeyModify -qs:gclid
