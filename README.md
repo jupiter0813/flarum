@@ -20,6 +20,9 @@ composer require acpl/flarum-lscache:"*"
 ```apacheconf
 <IfModule LiteSpeed>
     CacheLookup on
+    # Detection of logged-in user.
+    RewriteCond %{REQUEST_METHOD} ^HEAD|GET$
+    RewriteRule .* - [E="Cache-Vary:flarum_remember,flarum_lscache_vary,locale"]
 </IfModule>
 ```
 You can also add your own rules. For more information see here: [https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules](https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules)
