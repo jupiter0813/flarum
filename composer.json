@@ -60,13 +60,6 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "repositories": [
-        {
-            "name": "flarum/phpstan",
-            "type": "git",
-            "url": "https://github.com/flarum/phpstan"
-        }
-    ],
     "require-dev": {
         "flarum/phpstan": "^1.7"
     },
