@@ -15,16 +15,18 @@ Requires a LiteSpeed Web Server or OpenLiteSpeed.
 composer require acpl/flarum-lscache:"*"
 ```
 
-#### You need to include this code in your `.htaccess` file:
+#### You need to include this code snippet in your existing `.htaccess` file:
 
 ```apacheconf
 <IfModule LiteSpeed>
     CacheLookup on
+    RewriteEngine On
     # Detection of logged-in user.
     RewriteCond %{REQUEST_METHOD} ^HEAD|GET$
     RewriteRule .* - [E="Cache-Vary:flarum_remember,flarum_lscache_vary,locale"]
 </IfModule>
 ```
+
 You can also add your own rules. For more information, visit: [https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules](https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules)
 
 
