@@ -26,6 +26,7 @@ composer require acpl/flarum-lscache:"*"
     RewriteRule .* - [E="Cache-Vary:flarum_remember,flarum_lscache_vary,locale"]
 </IfModule>
 ```
+Please note, the `.htaccess` file of your Flarum forum is located in the `public/` directory.
 
 You can also add your own rules. For more information, visit: [https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules](https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules)
 
