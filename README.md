@@ -25,7 +25,7 @@ composer require acpl/flarum-lscache:"*"
     RewriteRule .* - [E="Cache-Vary:flarum_remember,flarum_lscache_vary,locale"]
 </IfModule>
 ```
-You can also add your own rules. For more information see here: [https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules](https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules)
+You can also add your own rules. For more information, visit: [https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules](https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules)
 
 
 ### Updating
@@ -35,13 +35,17 @@ composer update acpl/flarum-lscache:"*"
 php flarum migrate
 php flarum cache:clear
 ```
-When you clear the Flarum cache, the LSCache is cleared automatically. Unless you disable it in the settings.
 
-You can clear LSCache without clearing the Flarum cache in the admin panel. The option is available under the standard Flarum cache clearing option. There is also the `php flarum lscache:clear` command. The command supports the `--path` argument. E.g. `php flarum lscache:clear --path=/tags --path=/d/1-test`. You can use it if you want to purge only specific paths instead of the entire cache.
+### Cache Management
 
+This extension smartly manages the cache by purging it only where needed. For instance, when a new post is added in a discussion, the cache for that specific discussion, its tags, and the homepage are purged.
+
+When you clear the Flarum cache, the LSCache is also cleared automatically, unless you disable this feature in the settings.
+
+You can clear the LSCache without clearing the Flarum cache via the admin panel. This option is available under the standard Flarum cache clearing option. There is also the `php flarum lscache:clear` command. The command supports the `--path` argument. For example, `php flarum lscache:clear --path=/tags --path=/d/1-test`. You can use this if you only want to purge specific paths instead of the entire cache.
 
 ### FAQ
-_How do I avoid generating different cache versions for specific query strings? E.g. fbclid._
+_How can I prevent different cache versions from being generated for specific query strings? For example, fbclid._
 
 You can use `CacheKeyModify -qs:[key]`.
 
