@@ -1,18 +1,23 @@
 acpl-lscache:
   admin:
-    public_cache_ttl_label: 'Default public cache TTL'
-    public_cache_ttl_help: 'Specify how long, in seconds, public pages are cached. Default value is 604800 seconds (one week).'
+    public_cache_ttl_label: "Default public cache TTL"
+    public_cache_ttl_help: "Specify how long, in seconds, public pages are cached. Default value is 604800 seconds (one week)."
 
-    clearing_cache_listener_label: 'Purge LSCache when Flarum cache is cleared'
+    clearing_cache_listener_label: "Purge LSCache when Flarum cache is cleared"
 
-    serve_stale_label: 'Serve Stale'
-    serve_stale_help: 'If ON, the stale copy of a cached page will be shown to visitors until a new cache copy is available. Reduces the server load for following visits. If OFF, the page will be dynamically generated while visitors wait. By design, this option may serve stale content. Do not enable this option, if that is not OK with you.'
+    serve_stale_label: "Serve Stale"
+    serve_stale_help: "If ON, the stale copy of a cached page will be shown to visitors until a new cache copy is available. Reduces the server load for following visits. If OFF, the page will be dynamically generated while visitors wait. By design, this option may serve stale content. Do not enable this option, if that is not OK with you."
 
-    purge_on_discussion_update_label: 'Purge URLs or Tags when a discussion or post is updated'
-    purge_on_discussion_update_help: 'Specify one URL or Tag per line. Url should start with <code>/</code>, e.g. <code>/rankings</code> and cache Tag should start with <code>tag=</code>, e.g. <code>tag=rankings</code>. This extension tags every route and for example if you have a lot of routes that you would like to purge, it is better to add a rule in .htaccess with a regular expression that will tag the routes and here in the settings enter only this tag. This method will be much faster. <a>Learn more</a>. By default, the cache for the homepage is purged, as well as the cache for the updated discussions.'
+    purge_on_discussion_update_label: "Purge URLs or Tags when a discussion or post is updated"
+    purge_on_discussion_update_help: "Specify one URL or Tag per line. Url should start with <code>/</code>, e.g. <code>/rankings</code> and cache Tag should start with <code>tag=</code>, e.g. <code>tag=rankings</code>. This extension tags every route and for example if you have a lot of routes that you would like to purge, it is better to add a rule in .htaccess with a regular expression that will tag the routes and here in the settings enter only this tag. This method will be much faster. <a>Learn more</a>. By default, the cache for the homepage is purged, as well as the cache for the updated discussions."
 
-    cache_exclude_label: 'Do not cache paths'
-    cache_exclude_help: 'Paths containing these strings will not be cached. For example, for <code>/mypath/mypage?aa=bb</code>, <code>mypage?aa=</code> can be used here. To match the beginning, add <code>^</code> to the beginning of the item. To do an exact match, add <code>$</code> to the end of the URL. One per line.'
+    cache_exclude_label: "Do not cache paths"
+    cache_exclude_help: "Paths containing these strings will not be cached. For example, for <code>/mypath/mypage?aa=bb</code>, <code>mypage?aa=</code> can be used here. To match the beginning, add <code>^</code> to the beginning of the item. To do an exact match, add <code>$</code> to the end of the URL. One per line."
 
-    purge_all: 'Purge all LSCache'
-    purge_all_success: 'Notified LiteSpeed Web Server to purge all LSCache entries'
+    drop_qs_label: "Drop Query Strings"
+    drop_qs_help: |
+      Use this feature to drop specific query strings, like <code>fbclid</code> or <code>utm*</code>, when caching. This prevents redundant caching of pages with "junk" query strings such as UTM codes, which are used for tracking but don't affect page content. This requires LSWS v5.2.3 or newer. List the query strings to drop, one per line. <a>Learn more about dropping query strings</a>.<br></br>
+      ⚠️ This setting will modify the .htaccess file.
+
+    purge_all: "Purge all LSCache"
+    purge_all_success: "Notified LiteSpeed Web Server to purge all LSCache entries"

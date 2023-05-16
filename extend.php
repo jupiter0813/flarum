@@ -25,6 +25,7 @@ use Flarum\Extend;
 use Flarum\Foundation\Event\ClearingCache;
 use Flarum\Http\Middleware\CheckCsrfToken;
 use Flarum\Http\Middleware\StartSession;
+use Flarum\Settings\Event\Saved;
 
 return [
     (new Extend\Frontend('admin'))->js(__DIR__.'/js/dist/admin.js'),
@@ -34,7 +35,9 @@ return [
     // Settings
     (new Extend\Settings())
         ->default('acpl-lscache.public_cache_ttl', 604_800)
-        ->default('acpl-lscache.clearing_cache_listener', true),
+        ->default('acpl-lscache.clearing_cache_listener', true)
+        ->default('acpl-lscache.drop_qs', implode("\n", LSCache::DEFAULT_DROP_QS)),
+    (new Extend\Event())->listen(Saved::class, Listener\UpdateHtaccess::class),
 
     // Vary cookie
     (new Extend\Middleware('forum'))->insertAfter(StartSession::class, VaryCookieMiddleware::class),

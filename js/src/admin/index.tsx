@@ -36,6 +36,14 @@ app.initializers.add('acpl-lscache', () => {
       label: app.translator.trans('acpl-lscache.admin.cache_exclude_label'),
       help: app.translator.trans('acpl-lscache.admin.cache_exclude_help'),
       type: 'textarea',
+    })
+    .registerSetting({
+      setting: 'acpl-lscache.drop_qs',
+      label: app.translator.trans('acpl-lscache.admin.drop_qs_label'),
+      help: app.translator.trans('acpl-lscache.admin.drop_qs_help', {
+        a: <Link href="https://docs.litespeedtech.com/lscache/start/#method-1-apache-style-cachekeymodify" external={true} target="_blank" />,
+      }),
+      type: 'textarea',
     });
 
   addPurgeLSCacheButton();

@@ -3,22 +3,23 @@
 use ACPL\FlarumCache\Utility\HtaccessManager;
 use Flarum\Foundation\Paths;
 use Flarum\Http\CookieFactory;
-use Illuminate\Database\Schema\Builder;
+use Flarum\Settings\SettingsRepositoryInterface;
 
-function lsCacheGetHtAccessManager(): HtaccessManager
+function lsCacheGetHtaccessManager(): HtaccessManager
 {
     $paths = resolve(Paths::class);
     $cookie = resolve(CookieFactory::class);
-    return new HtaccessManager($paths, $cookie);
+    $settings = resolve(SettingsRepositoryInterface::class);
+    return new HtaccessManager($paths, $cookie, $settings);
 }
 
 return [
-    'up' => function (Builder $schema) {
-        $htaccessManager = lsCacheGetHtAccessManager();
+    'up' => function () {
+        $htaccessManager = lsCacheGetHtaccessManager();
         $htaccessManager->updateHtaccess();
     },
-    'down' => function (Builder $schema) {
-        $htaccessManager = lsCacheGetHtAccessManager();
+    'down' => function () {
+        $htaccessManager = lsCacheGetHtaccessManager();
         $htaccessManager->removeLsCacheBlock();
     }
 ];

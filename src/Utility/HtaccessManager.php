@@ -4,9 +4,11 @@ namespace ACPL\FlarumCache\Utility;
 
 use ACPL\FlarumCache\LSCache;
 use Flarum\Foundation\Paths;
+use Flarum\Http\CookieFactory;
+use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
-use Flarum\Http\CookieFactory;
+use Illuminate\Support\Str;
 
 class HtaccessManager
 {
@@ -16,13 +18,15 @@ class HtaccessManager
     private string $htaccessPath;
     private Filesystem $filesystem;
     private CookieFactory $cookie;
+    private SettingsRepositoryInterface $settings;
 
-    public function __construct(Paths $paths, CookieFactory $cookie)
+    public function __construct(Paths $paths, CookieFactory $cookie, SettingsRepositoryInterface $settings)
     {
         $this->filesystem = new Filesystem();
         $this->htaccessPath = $paths->public.'/.htaccess';
 
         $this->cookie = $cookie;
+        $this->settings = $settings;
     }
 
     /**
@@ -58,6 +62,19 @@ class HtaccessManager
                     'locale'
                 ]).'"]'
             );
+
+        // In the extend.php, there is an extender for default settings,
+        // but it doesn't work in migration, that's why the default setting is also set here.
+        $dropQs = Str::of($this->settings->get('acpl-lscache.drop_qs', implode("\n", LSCache::DEFAULT_DROP_QS)));
+        if ($dropQs->isNotEmpty()) {
+            $dropQsArr = $dropQs->explode("\n");
+            $block .= $this->addLine('');
+
+            foreach ($dropQsArr as $qs) {
+                $block .= $this->addLine('CacheKeyModify -qs:'.trim($qs));
+            }
+        }
+
         $block .= "\n</IfModule>";
         $block .= "\n".self::END_LSCACHE;
 

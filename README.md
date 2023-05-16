@@ -47,23 +47,6 @@ When you clear the Flarum cache, the LSCache is also cleared automatically, unle
 
 You can clear the LSCache without clearing the Flarum cache via the admin panel. This option is available under the standard Flarum cache clearing option. There is also the `php flarum lscache:clear` command. The command supports the `--path` argument. For example, `php flarum lscache:clear --path=/tags --path=/d/1-test`. You can use this if you only want to purge specific paths instead of the entire cache.
 
-### FAQ
-_How can I prevent different cache versions from being generated for specific query strings? For example, fbclid._
-
-You can use `CacheKeyModify -qs:[key]`.
-
-Example:
-```apacheconf
-<IfModule LiteSpeed>
-    #... Rest of the code
-    
-    CacheKeyModify -qs:fbclid
-    CacheKeyModify -qs:gclid
-    CacheKeyModify -qs:utm*
-    CacheKeyModify -qs:_ga
-</IfModule>
-```
-
 ## Links
 
 - [Packagist](https://packagist.org/packages/acpl/flarum-lscache)
