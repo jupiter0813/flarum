@@ -2,9 +2,11 @@
 
 namespace ACPL\FlarumCache\Utility;
 
+use ACPL\FlarumCache\LSCache;
 use Flarum\Foundation\Paths;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
+use Flarum\Http\CookieFactory;
 
 class HtaccessManager
 {
@@ -13,11 +15,14 @@ class HtaccessManager
 
     private string $htaccessPath;
     private Filesystem $filesystem;
+    private CookieFactory $cookie;
 
-    public function __construct(Paths $paths)
+    public function __construct(Paths $paths, CookieFactory $cookie)
     {
         $this->filesystem = new Filesystem();
         $this->htaccessPath = $paths->public.'/.htaccess';
+
+        $this->cookie = $cookie;
     }
 
     /**
@@ -46,7 +51,13 @@ class HtaccessManager
             $this->addLine('CacheLookup on').
             $this->addLine('RewriteEngine On').
             $this->addLine('RewriteCond %{REQUEST_METHOD} ^HEAD|GET$').
-            $this->addLine('RewriteRule .* - [E="Cache-Vary:flarum_remember,flarum_lscache_vary,locale"]');
+            $this->addLine(
+                'RewriteRule .* - [E="Cache-Vary:'.implode(',', [
+                    $this->cookie->getName(LSCache::VARY_COOKIE),
+                    $this->cookie->getName('remember'),
+                    'locale'
+                ]).'"]'
+            );
         $block .= "\n</IfModule>";
         $block .= "\n".self::END_LSCACHE;
 
