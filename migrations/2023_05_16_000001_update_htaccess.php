@@ -10,6 +10,7 @@ function lsCacheGetHtaccessManager(): HtaccessManager
     $paths = resolve(Paths::class);
     $cookie = resolve(CookieFactory::class);
     $settings = resolve(SettingsRepositoryInterface::class);
+
     return new HtaccessManager($paths, $cookie, $settings);
 }
 
