@@ -30,7 +30,7 @@ class HtaccessManager
     }
 
     /**
-     * Updates the .htaccess file with the new LSCache block content. If the LSCache block is already there, it replaces it. Otherwise, it appends it
+     * Updates the .htaccess file with the new LSCache block content. If the LSCache block is already there, it replaces it. Otherwise, it appends it.
      * @throws FileNotFoundException
      */
     public function updateHtaccess(): void
@@ -97,6 +97,7 @@ class HtaccessManager
     private function replaceLsCacheBlock(string $htaccessContent, string $newContent): string
     {
         $pattern = '/'.preg_quote(self::BEGIN_LSCACHE, '/').'.*'.preg_quote(self::END_LSCACHE, '/').'/s';
+
         return preg_replace($pattern, $newContent, $htaccessContent);
     }
 
@@ -107,7 +108,7 @@ class HtaccessManager
     }
 
     /**
-     * Removes the LSCache block from the .htaccess file. If the block is not present, it does nothing
+     * Removes the LSCache block from the .htaccess file. If the block is not present, it does nothing.
      * @throws FileNotFoundException
      */
     public function removeLsCacheBlock(): void
