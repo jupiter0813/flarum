@@ -71,7 +71,10 @@ class HtaccessManager
             $block .= $this->addLine('');
 
             foreach ($dropQsArr as $qs) {
-                $block .= $this->addLine('CacheKeyModify -qs:'.trim($qs));
+                $qs = trim($qs);
+                if (! empty($qs)) {
+                    $block .= $this->addLine('CacheKeyModify -qs:'.$qs);
+                }
             }
         }
 

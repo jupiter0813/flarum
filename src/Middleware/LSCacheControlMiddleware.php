@@ -45,7 +45,7 @@ class LSCacheControlMiddleware implements MiddlewareInterface
             $currentPath = Str::of($request->getUri()->getPath());
 
             foreach ($excludedPathsArr as $pattern) {
-                if ($currentPath->test('/'.addcslashes($pattern, '/').'/')) {
+                if (! empty(trim($pattern)) && $currentPath->test('/'.addcslashes($pattern, '/').'/')) {
                     return $this->withCacheControlHeader($response, 'no-cache');
                 }
             }
