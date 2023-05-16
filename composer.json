@@ -18,6 +18,12 @@
         "flarum/core": "^1.7",
         "php": ">=8.0"
     },
+    "require-dev": {
+        "flarum/phpstan": "^1.7"
+    },
+    "suggest": {
+        "blomstra/flarum-redis": "This library allows using Redis as cache, session and for the queue. https://github.com/blomstra/flarum-redis#set-up"
+    },
     "authors": [
         {
             "name": "Rafał Całka",
@@ -60,9 +66,6 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "require-dev": {
-        "flarum/phpstan": "^1.7"
-    },
     "scripts": {
         "analyse:phpstan": "phpstan analyse",
         "clear-cache:phpstan": "phpstan clear-result-cache"
