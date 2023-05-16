@@ -41,7 +41,7 @@ app.initializers.add('acpl-lscache', () => {
       setting: 'acpl-lscache.drop_qs',
       label: app.translator.trans('acpl-lscache.admin.drop_qs_label'),
       help: app.translator.trans('acpl-lscache.admin.drop_qs_help', {
-        a: <Link href="https://docs.litespeedtech.com/lscache/start/#method-1-apache-style-cachekeymodify" external={true} target="_blank" />,
+        a: <Link href="https://docs.litespeedtech.com/lscache/start/#drop-junk-query-strings" external={true} target="_blank" />,
       }),
       type: 'textarea',
     });
