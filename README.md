@@ -12,29 +12,16 @@ Requires a LiteSpeed Web Server or OpenLiteSpeed.
 ### Install with composer:
 
 ```sh
-composer require acpl/flarum-lscache:"*"
+composer require acpl/flarum-lscache
 ```
 
-#### You need to include this code snippet in your existing `.htaccess` file:
-
-```apacheconf
-<IfModule LiteSpeed>
-    CacheLookup on
-    RewriteEngine On
-    # Detection of logged-in user.
-    RewriteCond %{REQUEST_METHOD} ^HEAD|GET$
-    RewriteRule .* - [E="Cache-Vary:flarum_remember,flarum_lscache_vary,locale"]
-</IfModule>
-```
-Please note, the `.htaccess` file of your Flarum forum is located in the `public/` directory.
-
-You can also add your own rules. For more information, visit: [https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules](https://docs.litespeedtech.com/lscache/noplugin/settings/#rewrite-rules)
-
+Upon initial activation, the extension will add its configurations to the `.htaccess` file.
+It's recommended to back up your `.htaccess` file before installing the extension.
 
 ### Updating
 
 ```sh
-composer update acpl/flarum-lscache:"*"
+composer update acpl/flarum-lscache
 php flarum migrate
 php flarum cache:clear
 ```
@@ -43,7 +30,7 @@ php flarum cache:clear
 
 This extension smartly manages the cache by purging it only where needed. For instance, when a new post is added in a discussion, the cache for that specific discussion, its tags, and the homepage are purged.
 
-When you clear the Flarum cache, the LSCache is also cleared automatically, unless you disable this feature in the settings.
+When you clear the Flarum cache, the LSCache is also cleared automatically unless you disable this feature in the settings.
 
 You can clear the LSCache without clearing the Flarum cache via the admin panel. This option is available under the standard Flarum cache clearing option. There is also the `php flarum lscache:clear` command. The command supports the `--path` argument. For example, `php flarum lscache:clear --path=/tags --path=/d/1-test`. You can use this if you only want to purge specific paths instead of the entire cache.
 
