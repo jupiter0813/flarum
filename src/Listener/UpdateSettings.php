@@ -31,7 +31,7 @@ class UpdateSettings
         }
 
         // If the LSCache is being disabled, initiate a cache clear operation.
-        if (isset($event->settings['acpl-lscache.cache_enabled']) && $event->settings['acpl-lscache.cache_enabled'] === false) {
+        if (isset($event->settings['acpl-lscache.cache_enabled']) && ! $event->settings['acpl-lscache.cache_enabled']) {
             $this->cacheClearCommand->run(new ArrayInput([]), new NullOutput());
         }
     }

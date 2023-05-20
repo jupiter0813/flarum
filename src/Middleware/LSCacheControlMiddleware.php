@@ -28,7 +28,7 @@ class LSCacheControlMiddleware implements MiddlewareInterface
         $response = $handler->handle($request);
         $method = $request->getMethod();
 
-        if ($this->settings->get('acpl-lscache.cache_enabled', true) === false) {
+        if (! $this->settings->get('acpl-lscache.cache_enabled')) {
             return $this->withCacheControlHeader($response, 'no-cache');
         }
 
