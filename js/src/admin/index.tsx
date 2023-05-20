@@ -6,6 +6,20 @@ app.initializers.add('acpl-lscache', () => {
   app.extensionData
     .for('acpl-lscache')
     .registerSetting({
+      setting: 'acpl-lscache.cache_enabled',
+      label: app.translator.trans('acpl-lscache.admin.cache_enabled_label'),
+      help: app.translator.trans('acpl-lscache.admin.cache_enabled_help', {
+        a: (
+          <Link
+            href="https://docs.litespeedtech.com/lscache/noplugin/installation/#verify-your-site-is-being-cached"
+            external={true}
+            target="_blank"
+          />
+        ),
+      }),
+      type: 'boolean',
+    })
+    .registerSetting({
       setting: 'acpl-lscache.public_cache_ttl',
       label: app.translator.trans('acpl-lscache.admin.public_cache_ttl_label'),
       help: app.translator.trans('acpl-lscache.admin.public_cache_ttl_help'),

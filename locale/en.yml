@@ -1,5 +1,8 @@
 acpl-lscache:
   admin:
+    cache_enabled_label: "Enable LSCache"
+    cache_enabled_help: "Check out the <a>Information page</a> on how to test the cache. NOTE: When disabling the cache, all cached entries for this site will be purged."
+
     public_cache_ttl_label: "Default Public Cache TTL"
     public_cache_ttl_help: "Define how long, in seconds, public pages should be cached. The default value is 604800 seconds (one week)."
 

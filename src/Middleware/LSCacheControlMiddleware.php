@@ -28,6 +28,10 @@ class LSCacheControlMiddleware implements MiddlewareInterface
         $response = $handler->handle($request);
         $method = $request->getMethod();
 
+        if ($this->settings->get('acpl-lscache.cache_enabled', true) === false) {
+            return $this->withCacheControlHeader($response, 'no-cache');
+        }
+
         if (! in_array($method, ['GET', 'HEAD']) || $response->hasHeader(LSCacheHeadersEnum::CACHE_CONTROL)) {
             return $response;
         }
@@ -58,9 +62,13 @@ class LSCacheControlMiddleware implements MiddlewareInterface
 
         //Cache CSRF privately
         if ($routeName === 'lscache.csrf') {
-            $sessionTTL = $this->session['lifetime'] * 60;
-
-            return $this->withCacheControlHeader($response, "private,max-age=$sessionTTL");
+            // Subtract 2 minutes (120 seconds)
+            // from the session lifetime to set the cache to expire before the actual session does.
+            // This is to prevent a potential issue where an expired CSRF token might be served from the cache.
+            return $this->withCacheControlHeader(
+                $response,
+                'private,max-age='.(($this->session['lifetime'] * 60) - 120)
+            );
         }
 
         $lscacheParams = [];

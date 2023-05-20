@@ -34,10 +34,11 @@ return [
 
     // Settings
     (new Extend\Settings())
+        ->default('acpl-lscache.cache_enabled', true)
         ->default('acpl-lscache.public_cache_ttl', 604_800)
         ->default('acpl-lscache.clearing_cache_listener', true)
         ->default('acpl-lscache.drop_qs', implode("\n", LSCache::DEFAULT_DROP_QS)),
-    (new Extend\Event())->listen(Saved::class, Listener\UpdateHtaccess::class),
+    (new Extend\Event())->listen(Saved::class, Listener\UpdateSettings::class),
 
     // Vary cookie
     (new Extend\Middleware('forum'))->insertAfter(StartSession::class, VaryCookieMiddleware::class),
