@@ -5,6 +5,7 @@ namespace ACPL\FlarumCache\Middleware;
 use ACPL\FlarumCache\LSCache;
 use ACPL\FlarumCache\LSCacheHeadersEnum;
 use Dflydev\FigCookies\FigResponseCookies;
+use Flarum\Http\CookieFactory;
 use Illuminate\Contracts\Session\Session;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Psr\Http\Message\ResponseInterface;
