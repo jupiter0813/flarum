@@ -18,6 +18,13 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class LogoutMiddleware implements MiddlewareInterface
 {
+    private CookieFactory $cookie;
+
+    public function __construct(CookieFactory $cookie)
+    {
+        $this->cookie = $cookie;
+    }
+
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $response = $handler->handle($request);
@@ -32,6 +39,9 @@ class LogoutMiddleware implements MiddlewareInterface
 
     private function withExpiredVaryCookie(Response $response, Session $session): Response
     {
-        return FigResponseCookies::expire($response, LSCache::VARY_COOKIE);
+        return FigResponseCookies::set(
+            FigResponseCookies::remove($response, LSCache::VARY_COOKIE),
+            $this->cookie->make(LSCache::VARY_COOKIE, $session->token())->expire()
+        );
     }
 }

@@ -7,10 +7,8 @@ use ACPL\FlarumCache\LSCacheHeadersEnum;
 use Dflydev\FigCookies\FigResponseCookies;
 use Flarum\Http\CookieFactory;
 use Flarum\Http\RequestUtil;
-use Flarum\Http\UrlGenerator;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Session\Session;
-use Laminas\Diactoros\Uri;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface;
@@ -20,13 +18,11 @@ use Psr\Http\Server\RequestHandlerInterface;
 class VaryCookieMiddleware implements MiddlewareInterface
 {
     private CookieFactory $cookie;
-    private UrlGenerator $url;
     private array $session;
 
-    public function __construct(CookieFactory $cookie, UrlGenerator $url, ConfigRepository $config)
+    public function __construct(CookieFactory $cookie, ConfigRepository $config)
     {
         $this->cookie = $cookie;
-        $this->url = $url;
         $this->session = $config->get('session');
     }
 
@@ -45,8 +41,7 @@ class VaryCookieMiddleware implements MiddlewareInterface
 
         $user = RequestUtil::getActor($request);
 
-        $logoutUri = new Uri($this->url->to('forum')->route('logout'));
-        if ($user->isGuest() || $request->getUri()->getPath() === $logoutUri->getPath()) {
+        if ($user->isGuest() || $request->getAttribute('routeName') === 'logout') {
             return $response;
         }
 
@@ -55,6 +50,9 @@ class VaryCookieMiddleware implements MiddlewareInterface
 
     private function withVaryCookie(Response $response, Session $session): Response
     {
-        return FigResponseCookies::set($response, $this->cookie->make(LSCache::VARY_COOKIE, $session->token(), $this->session['lifetime'] * 60));
+        return FigResponseCookies::set(
+            $response,
+            $this->cookie->make(LSCache::VARY_COOKIE, $session->token(), $this->session['lifetime'] * 60)
+        );
     }
 }
