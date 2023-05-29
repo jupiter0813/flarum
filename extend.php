@@ -41,9 +41,9 @@ return [
     (new Extend\Event())->listen(Saved::class, Listener\UpdateSettings::class),
 
     // Vary cookie
-    (new Extend\Middleware('forum'))->insertAfter(StartSession::class, VaryCookieMiddleware::class),
-    (new Extend\Middleware('admin'))->insertAfter(StartSession::class, VaryCookieMiddleware::class),
-    (new Extend\Middleware('api'))->insertAfter(StartSession::class, VaryCookieMiddleware::class),
+    (new Extend\Middleware('forum'))->insertAfter(CheckCsrfToken::class, VaryCookieMiddleware::class),
+    (new Extend\Middleware('admin'))->insertAfter(CheckCsrfToken::class, VaryCookieMiddleware::class),
+    (new Extend\Middleware('api'))->insertAfter(CheckCsrfToken::class, VaryCookieMiddleware::class),
     // LogIn
     (new Extend\Middleware('forum'))->insertAfter(VaryCookieMiddleware::class, LoginMiddleware::class),
     // LogOut
@@ -54,8 +54,8 @@ return [
     (new Extend\Middleware('api'))->add(LSTagsMiddleware::class),
 
     // Cache routes
-    (new Extend\Middleware('forum'))->insertAfter(CheckCsrfToken::class, LSCacheControlMiddleware::class),
-    (new Extend\Middleware('api'))->insertAfter(CheckCsrfToken::class, LSCacheControlMiddleware::class),
+    (new Extend\Middleware('forum'))->insertAfter(VaryCookieMiddleware::class, LSCacheControlMiddleware::class),
+    (new Extend\Middleware('api'))->insertAfter(VaryCookieMiddleware::class, LSCacheControlMiddleware::class),
 
     // A workaround for the CSRF cache issue. The JS script fetches this path to update the CSRF
     (new Extend\Routes('api'))->get('/lscache-csrf', 'lscache.csrf', LSCacheCsrfResponseController::class),

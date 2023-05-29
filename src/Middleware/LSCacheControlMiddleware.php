@@ -37,6 +37,7 @@ class LSCacheControlMiddleware implements MiddlewareInterface
         }
 
         $routeName = $request->getAttribute('routeName');
+
         //Exclude FriendsOfFlarum/OAuth routes
         if (Str::startsWith($routeName, ['auth', 'fof-oauth'])) {
             return $this->withCacheControlHeader($response, 'no-cache');

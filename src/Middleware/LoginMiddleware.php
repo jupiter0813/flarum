@@ -18,23 +18,23 @@ use Psr\Http\Server\RequestHandlerInterface;
 class LoginMiddleware implements MiddlewareInterface
 {
     private CookieFactory $cookie;
-    private UrlGenerator $url;
     private array $session;
 
-    public function __construct(CookieFactory $cookie, UrlGenerator $url, ConfigRepository $config)
+    public function __construct(CookieFactory $cookie, ConfigRepository $config)
     {
         $this->cookie = $cookie;
-        $this->url = $url;
         $this->session = $config->get('session');
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $loginUri = new Uri($this->url->to('forum')->route('login'));
-
         $response = $handler->handle($request);
 
-        if ($request->getUri()->getPath() === $loginUri->getPath() && $request->getMethod() === 'POST' && $response->getStatusCode() === 200) {
+        if (
+            $request->getAttribute('routeName') === 'login'
+            && $request->getMethod() === 'POST'
+            && $response->getStatusCode() === 200
+        ) {
             return $this->withVaryCookie($response, $request->getAttribute('session'));
         }
 
@@ -43,6 +43,7 @@ class LoginMiddleware implements MiddlewareInterface
 
     private function withVaryCookie(Response $response, Session $session): Response
     {
-        return FigResponseCookies::set($response, $this->cookie->make(LSCache::VARY_COOKIE, $session->token(), $this->session['lifetime'] * 60));
+        return FigResponseCookies::set($response,
+            $this->cookie->make(LSCache::VARY_COOKIE, $session->token(), $this->session['lifetime'] * 60));
     }
 }
