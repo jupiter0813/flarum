@@ -24,7 +24,6 @@ use ACPL\FlarumCache\Middleware\VaryCookieMiddleware;
 use Flarum\Extend;
 use Flarum\Foundation\Event\ClearingCache;
 use Flarum\Http\Middleware\CheckCsrfToken;
-use Flarum\Http\Middleware\StartSession;
 use Flarum\Settings\Event\Saved;
 
 return [

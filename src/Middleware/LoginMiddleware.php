@@ -5,10 +5,8 @@ namespace ACPL\FlarumCache\Middleware;
 use ACPL\FlarumCache\LSCache;
 use Dflydev\FigCookies\FigResponseCookies;
 use Flarum\Http\CookieFactory;
-use Flarum\Http\UrlGenerator;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Session\Session;
-use Laminas\Diactoros\Uri;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface;
@@ -43,7 +41,9 @@ class LoginMiddleware implements MiddlewareInterface
 
     private function withVaryCookie(Response $response, Session $session): Response
     {
-        return FigResponseCookies::set($response,
-            $this->cookie->make(LSCache::VARY_COOKIE, $session->token(), $this->session['lifetime'] * 60));
+        return FigResponseCookies::set(
+            $response,
+            $this->cookie->make(LSCache::VARY_COOKIE, $session->token(), $this->session['lifetime'] * 60)
+        );
     }
 }
