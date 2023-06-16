@@ -3,7 +3,6 @@
 namespace ACPL\FlarumCache\Compatibility\FofMasquerade;
 
 use ACPL\FlarumCache\Abstract\PurgeMiddleware;
-use Flarum\Http\RequestUtil;
 use Flarum\User\User;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
