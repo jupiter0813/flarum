@@ -4,6 +4,7 @@ namespace ACPL\FlarumCache\Compatibility\FofMasquerade;
 
 use ACPL\FlarumCache\Abstract\PurgeMiddleware;
 use Flarum\Http\RequestUtil;
+use Flarum\User\User;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -17,7 +18,8 @@ class Middleware extends PurgeMiddleware
     ): ResponseInterface {
         // Purge user profile cache when updating FriendsOfFlarum/masquerade fields
         if ($this->currentRouteName === 'masquerade.api.configure.save') {
-            $user = RequestUtil::getActor($request);
+            $userID = $this->getRouteParams($request)['id'];
+            $user = User::find($userID);
 
             return $this->addPurgeParamsToResponse(
                 $response,
