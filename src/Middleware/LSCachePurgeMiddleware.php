@@ -34,7 +34,7 @@ class LSCachePurgeMiddleware extends PurgeMiddleware
             if (! empty($purgeList)) {
                 $purgeList = explode("\n", $purgeList);
                 // Get only valid items
-                $purgeList = array_filter($purgeList, fn($item) => Str::startsWith($item, ['/', 'tag=']));
+                $purgeList = array_filter($purgeList, fn ($item) => Str::startsWith($item, ['/', 'tag=']));
                 $purgeParams = array_merge($purgeParams, $purgeList);
             }
 
