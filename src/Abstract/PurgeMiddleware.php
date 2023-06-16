@@ -40,12 +40,12 @@ abstract class PurgeMiddleware implements MiddlewareInterface
 
         // If this is just an update of the last read post, there is no point in clearing the public cache
         if ($this->isDiscussion && Arr::get(
-                $request->getParsedBody(),
-                'data.attributes.lastReadPostNumber')
+            $request->getParsedBody(),
+            'data.attributes.lastReadPostNumber'
+        )
         ) {
             return $response;
         }
-
 
         return $this->processPurge($request, $handler, $response);
     }
@@ -55,7 +55,6 @@ abstract class PurgeMiddleware implements MiddlewareInterface
         RequestHandlerInterface $handler,
         ResponseInterface $response
     ): ResponseInterface;
-
 
     protected function addPurgeParamsToResponse(ResponseInterface $response, array $newPurgeParams): ResponseInterface
     {

@@ -4,16 +4,11 @@ namespace ACPL\FlarumCache\Middleware;
 
 use ACPL\FlarumCache\Abstract\PurgeMiddleware;
 use ACPL\FlarumCache\LSCache;
-use ACPL\FlarumCache\LSCacheHeadersEnum;
-use Flarum\Discussion\Discussion;
-use Flarum\Http\RequestUtil;
 use Flarum\Post\Post;
-use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 class LSCachePurgeMiddleware extends PurgeMiddleware
@@ -39,7 +34,7 @@ class LSCachePurgeMiddleware extends PurgeMiddleware
             if (! empty($purgeList)) {
                 $purgeList = explode("\n", $purgeList);
                 // Get only valid items
-                $purgeList = array_filter($purgeList, fn($item) => Str::startsWith($item, ['/', 'tag=']));
+                $purgeList = array_filter($purgeList, fn ($item) => Str::startsWith($item, ['/', 'tag=']));
                 $purgeParams = array_merge($purgeParams, $purgeList);
             }
 
