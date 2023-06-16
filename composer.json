@@ -14,6 +14,12 @@
         "source": "https://github.com/android-com-pl/flarum-lscache",
         "forum": "https://discuss.flarum.org/d/29475-litespeed-cache-for-flarum"
     },
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/android-com-pl/flarum-lscache?sponsor=1"
+        }
+    ],
     "require": {
         "flarum/core": "^1.7",
         "php": ">=8.0"
