@@ -8,7 +8,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-
 class Middleware extends PurgeMiddleware
 {
     protected function processPurge(
@@ -19,6 +18,7 @@ class Middleware extends PurgeMiddleware
         // Purge user profile cache when updating FriendsOfFlarum/masquerade fields
         if ($this->currentRouteName === 'masquerade.api.configure.save') {
             $user = RequestUtil::getActor($request);
+
             return $this->addPurgeParamsToResponse(
                 $response,
                 [

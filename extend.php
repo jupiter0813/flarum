@@ -74,7 +74,7 @@ return [
     // Extensions
     (new Extend\Conditional)
         ->whenExtensionEnabled('flarum-tags', [
-            (new Extend\Middleware('api'))->add(FlarumTagsPurgeMiddleware ::class),
+            (new Extend\Middleware('api'))->add(FlarumTagsPurgeMiddleware::class),
         ])
         ->whenExtensionEnabled('fof-masquerade', [
             (new Extend\Middleware('api'))->add(FofMasqueradeMiddleware::class),

@@ -4,7 +4,6 @@ namespace ACPL\FlarumCache\Middleware;
 
 use ACPL\FlarumCache\LSCache;
 use ACPL\FlarumCache\LSCacheHeadersEnum;
-use Laminas\Diactoros\Response\HtmlResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
