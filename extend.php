@@ -14,6 +14,8 @@ namespace ACPL\FlarumCache;
 use ACPL\FlarumCache\Api\Controller\LSCacheCsrfResponseController;
 use ACPL\FlarumCache\Api\Controller\PurgeLSCacheController;
 use ACPL\FlarumCache\Command\LSCacheClearCommand;
+use ACPL\FlarumCache\Compatibility\FlarumTags\FlarumTagsPurgeMiddleware;
+use ACPL\FlarumCache\Compatibility\FofMasquerade\Middleware as FofMasqueradeMiddleware;
 use ACPL\FlarumCache\Listener\ClearingCacheListener;
 use ACPL\FlarumCache\Middleware\LoginMiddleware;
 use ACPL\FlarumCache\Middleware\LogoutMiddleware;
@@ -68,4 +70,13 @@ return [
     (new Extend\Routes('api'))->get('/lscache-purge', 'lscache.purge', PurgeLSCacheController::class),
     (new Extend\Console())->command(LSCacheClearCommand::class),
     (new Extend\Event())->listen(ClearingCache::class, ClearingCacheListener::class),
+
+    // Extensions
+    (new Extend\Conditional)
+        ->whenExtensionEnabled('flarum-tags', [
+            (new Extend\Middleware('api'))->add(FlarumTagsPurgeMiddleware ::class),
+        ])
+        ->whenExtensionEnabled('fof-masquerade', [
+            (new Extend\Middleware('api'))->add(FofMasqueradeMiddleware::class),
+        ])
 ];

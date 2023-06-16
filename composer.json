@@ -21,11 +21,12 @@
         }
     ],
     "require": {
-        "flarum/core": "^1.7",
+        "flarum/core": "^1.8",
         "php": ">=8.0"
     },
     "require-dev": {
-        "flarum/phpstan": "^1.7"
+        "flarum/phpstan": "^1.8",
+        "flarum/tags": "*"
     },
     "suggest": {
         "blomstra/flarum-redis": "This library allows using Redis as cache, session and for the queue. https://github.com/blomstra/flarum-redis#set-up"
@@ -50,7 +51,11 @@
                 "name": "fas fa-bolt",
                 "backgroundColor": "#2b82d9",
                 "color": "#fff"
-            }
+            },
+            "optional-dependencies": [
+                "flarum/tags",
+                "fof/masquerade"
+            ]
         },
         "flarum-cli": {
             "modules": {

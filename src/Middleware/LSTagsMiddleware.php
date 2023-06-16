@@ -4,6 +4,7 @@ namespace ACPL\FlarumCache\Middleware;
 
 use ACPL\FlarumCache\LSCache;
 use ACPL\FlarumCache\LSCacheHeadersEnum;
+use Laminas\Diactoros\Response\HtmlResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -15,23 +16,48 @@ class LSTagsMiddleware implements MiddlewareInterface
     {
         $response = $handler->handle($request);
 
-        if (! in_array($request->getMethod(), ['GET', 'HEAD']) || $response->hasHeader(LSCacheHeadersEnum::TAG)) {
+        if (! in_array($request->getMethod(), ['GET', 'HEAD'])) {
             return $response;
         }
 
         $routeName = $request->getAttribute('routeName');
-        $rootRouteName = LSCache::extractRootRouteName($routeName);
 
         $params = $request->getAttribute('routeParameters');
 
-        $lsTagsString = $routeName;
+        $tagParams = [$routeName];
 
-        if (! empty($params) && ! empty($params['id'])) {
-            // The id parameter contains the slug. We only need the id (int)
-            $id = explode('-', $params['id'], 2)[0];
-            $lsTagsString .= ",$rootRouteName".$id;
+        if (! empty($params)) {
+            $rootRouteName = LSCache::extractRootRouteName($routeName);
+
+            // Discussion
+            if (! empty($params['id'])) {
+                // The id parameter contains the slug. We only need id (int)
+                $id = explode('-', $params['id'], 2)[0];
+                if (! empty($id)) {
+                    $tagParams[] = "{$rootRouteName}_$id";
+                }
+            }
+
+            // User profile
+            if (! empty($params['username'])) {
+                $tagParams[] = "{$rootRouteName}_{$params['username']}";
+            }
+
+            // Slugs, eg. tag slug
+            if (! empty($params['slug'])) {
+                $tagParams[] = "{$rootRouteName}_{$params['slug']}";
+            }
         }
 
-        return $response->withHeader(LSCacheHeadersEnum::TAG, $lsTagsString);
+        if ($response->hasHeader(LSCacheHeadersEnum::TAG)) {
+            $tagParams = array_merge(
+                explode(',', $response->getHeaderLine(LSCacheHeadersEnum::TAG)),
+                $tagParams
+            );
+        }
+
+        $tagParams = array_unique($tagParams);
+
+        return $response->withHeader(LSCacheHeadersEnum::TAG, implode(',', $tagParams));
     }
 }
