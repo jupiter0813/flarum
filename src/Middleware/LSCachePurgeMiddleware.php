@@ -34,7 +34,7 @@ class LSCachePurgeMiddleware extends PurgeMiddleware
             if (! empty($purgeList)) {
                 $purgeList = explode("\n", $purgeList);
                 // Get only valid items
-                $purgeList = array_filter($purgeList, fn ($item) => Str::startsWith($item, ['/', 'tag=']));
+                $purgeList = array_filter($purgeList, fn($item) => Str::startsWith($item, ['/', 'tag=']));
                 $purgeParams = array_merge($purgeParams, $purgeList);
             }
 
@@ -58,7 +58,7 @@ class LSCachePurgeMiddleware extends PurgeMiddleware
             }
 
             if ($discussionId) {
-                array_push($purgeParams, "tag=discussions$discussionId", "tag=discussion$discussionId");
+                array_push($purgeParams, "tag=discussions_$discussionId", "tag=discussion_$discussionId");
             }
         }
 
@@ -71,7 +71,7 @@ class LSCachePurgeMiddleware extends PurgeMiddleware
             }
 
             if (! empty($params) && ! empty($params['id'])) {
-                $purgeParams[] = "tag=$rootRouteName{$params['id']}";
+                $purgeParams[] = "tag={$rootRouteName}_{$params['id']}";
             }
         }
 
