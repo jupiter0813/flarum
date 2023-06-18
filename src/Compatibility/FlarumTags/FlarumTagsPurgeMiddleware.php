@@ -43,6 +43,7 @@ class FlarumTagsPurgeMiddleware extends PurgeMiddleware
             return $response;
         }
 
+        $response->getBody()->rewind();
         $payload = $response->getBody()->getContents();
         $payload = json_decode($payload, true);
 

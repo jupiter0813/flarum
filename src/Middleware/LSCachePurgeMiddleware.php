@@ -43,6 +43,23 @@ class LSCachePurgeMiddleware extends PurgeMiddleware
             if (($isPostUpdate && Arr::has($body, 'data.attributes.isHidden')) || ! $isPostUpdate) {
                 array_push($purgeParams, 'tag=default', 'tag=index', 'tag=discussions.index');
             }
+
+            // User profile cache
+            $response->getBody()->rewind();
+            $payload = json_decode($response->getBody()->getContents(), true);
+
+            if (isset($payload, $payload['included'])) {
+                $userData = Arr::first($payload['included'], fn($value, $key) => $value['type'] === 'users');
+                if ($userData) {
+                    $userId = $userData['id'];
+                    $userName = Arr::get($userData, 'attributes.username');
+
+                    array_push(
+                        $purgeParams,
+                        "tag=user_$userId", "tag=user_$userName", "tag=users_$userId", "tag=users_$userName"
+                    );
+                }
+            }
         }
 
         if ($isPost) {
