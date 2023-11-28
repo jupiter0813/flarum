@@ -14,6 +14,7 @@ namespace ACPL\FlarumCache;
 use ACPL\FlarumCache\Api\Controller\LSCacheCsrfResponseController;
 use ACPL\FlarumCache\Api\Controller\PurgeLSCacheController;
 use ACPL\FlarumCache\Command\LSCacheClearCommand;
+use ACPL\FlarumCache\Compatibility\FlarumLikes\FlarumLikesPurgeMiddleware;
 use ACPL\FlarumCache\Compatibility\FlarumTags\FlarumTagsPurgeMiddleware;
 use ACPL\FlarumCache\Compatibility\FofMasquerade\Middleware as FofMasqueradeMiddleware;
 use ACPL\FlarumCache\Listener\ClearingCacheListener;
@@ -75,6 +76,9 @@ return [
     (new Extend\Conditional)
         ->whenExtensionEnabled('flarum-tags', [
             (new Extend\Middleware('api'))->add(FlarumTagsPurgeMiddleware::class),
+        ])
+        ->whenExtensionEnabled('flarum-likes', [
+            (new Extend\Middleware('api'))->add(FlarumLikesPurgeMiddleware::class),
         ])
         ->whenExtensionEnabled('fof-masquerade', [
             (new Extend\Middleware('api'))->add(FofMasqueradeMiddleware::class),
