@@ -1,6 +1,6 @@
 {
   "name": "@acpl/flarum-lscache",
-  "packageManager": "yarn@4.0.2",
+  "packageManager": "yarn@3.7.0",
   "private": true,
   "prettier": "@flarum/prettier-config",
   "devDependencies": {
