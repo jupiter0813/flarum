@@ -53,8 +53,16 @@ class FlarumTagsPurgeMiddleware extends PurgeMiddleware
             $discussionId = Arr::get($payload, 'data.relationships.discussion.data.id');
             if (! $discussionId) {
                 $postId = Arr::get($payload, 'data.id');
+                if (! $postId) {
+                    return $response;
+                }
+
                 $discussionId = Post::find($postId)->discussion_id;
             }
+        }
+
+        if (! $discussionId) {
+            return $response;
         }
 
         $discussion = Discussion::find($discussionId);
