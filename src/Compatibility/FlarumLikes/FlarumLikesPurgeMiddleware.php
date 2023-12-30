@@ -10,7 +10,6 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class FlarumLikesPurgeMiddleware extends PurgeMiddleware
 {
-
     protected function processPurge(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler,
