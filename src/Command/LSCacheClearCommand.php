@@ -41,7 +41,8 @@ class LSCacheClearCommand extends AbstractCommand
         //Create a temporary API key to authorize a request
         $apiKey = new ApiKey();
         $key = $apiKey::generate()->key;
-        //The key is saved temporarily in the settings. The native Flarum API key is not used because it requires a user ID and in the case of the command the user is not logged in.
+        //The key is saved temporarily in the settings.
+        //The native Flarum API key is not used because it requires a user ID but in the case of the command, the user is not logged in.
         $this->settings->set('acpl-lscache.purgeKey', $key);
 
         $options = [
@@ -59,20 +60,15 @@ class LSCacheClearCommand extends AbstractCommand
             //GET does not require the Flarum API key
             $client->request('GET', $this->url->to('api')->route('lscache.purge'), $options);
         } catch (GuzzleException $exception) {
-            $this->deleteKey();
             $this->error('Something went wrong while sending the request.');
 
             return 1;
+        } finally {
+            $this->settings->delete('acpl-lscache.purgeKey');
         }
 
-        $this->deleteKey();
         $this->info('Notified LiteSpeed Web Server to purge'.(empty($paths) ? ' all' : '').' LSCache entries');
 
         return 0;
-    }
-
-    private function deleteKey(): void
-    {
-        $this->settings->delete('acpl-lscache.purgeKey');
     }
 }
