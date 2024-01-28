@@ -2,25 +2,20 @@
 
 namespace ACPL\FlarumCache\Middleware;
 
+use ACPL\FlarumCache\Abstract\CacheTagsMiddleware;
 use ACPL\FlarumCache\LSCache;
-use ACPL\FlarumCache\LSCacheHeadersEnum;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class LSTagsMiddleware implements MiddlewareInterface
+class LSTagsMiddleware extends CacheTagsMiddleware
 {
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
-    {
-        $response = $handler->handle($request);
-
-        if (! in_array($request->getMethod(), ['GET', 'HEAD'])) {
-            return $response;
-        }
-
-        $routeName = $request->getAttribute('routeName');
-
+    protected function processTags(
+        ServerRequestInterface $request,
+        RequestHandlerInterface $handler,
+        ResponseInterface $response
+    ): ResponseInterface {
+        $routeName = $this->currentRouteName;
         $params = $request->getAttribute('routeParameters');
 
         $tagParams = [$routeName];
@@ -48,15 +43,6 @@ class LSTagsMiddleware implements MiddlewareInterface
             }
         }
 
-        if ($response->hasHeader(LSCacheHeadersEnum::TAG)) {
-            $tagParams = array_merge(
-                explode(',', $response->getHeaderLine(LSCacheHeadersEnum::TAG)),
-                $tagParams
-            );
-        }
-
-        $tagParams = array_unique($tagParams);
-
-        return $response->withHeader(LSCacheHeadersEnum::TAG, implode(',', $tagParams));
+        return $this->addLSCacheTagsToResponse($response, $tagParams);
     }
 }
