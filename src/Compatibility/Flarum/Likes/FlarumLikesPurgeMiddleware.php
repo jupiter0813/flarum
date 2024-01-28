@@ -1,6 +1,6 @@
 <?php
 
-namespace ACPL\FlarumCache\Compatibility\FlarumLikes;
+namespace ACPL\FlarumCache\Compatibility\Flarum\Likes;
 
 use ACPL\FlarumCache\Abstract\PurgeMiddleware;
 use Illuminate\Support\Arr;

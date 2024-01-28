@@ -14,9 +14,9 @@ namespace ACPL\FlarumCache;
 use ACPL\FlarumCache\Api\Controller\LSCacheCsrfResponseController;
 use ACPL\FlarumCache\Api\Controller\PurgeLSCacheController;
 use ACPL\FlarumCache\Command\LSCacheClearCommand;
-use ACPL\FlarumCache\Compatibility\FlarumLikes\FlarumLikesPurgeMiddleware;
-use ACPL\FlarumCache\Compatibility\FlarumTags\FlarumTagsPurgeMiddleware;
-use ACPL\FlarumCache\Compatibility\FofMasquerade\Middleware as FofMasqueradeMiddleware;
+use ACPL\FlarumCache\Compatibility\Flarum\Likes\FlarumLikesPurgeMiddleware;
+use ACPL\FlarumCache\Compatibility\Flarum\Tags\FlarumTagsPurgeMiddleware;
+use ACPL\FlarumCache\Compatibility\FriendsOfFlarum\Masquerade\FofMasqueradePurgeMiddleware;
 use ACPL\FlarumCache\Listener\ClearingCacheListener;
 use ACPL\FlarumCache\Middleware\LoginMiddleware;
 use ACPL\FlarumCache\Middleware\LogoutMiddleware;
@@ -72,7 +72,7 @@ return [
     (new Extend\Console())->command(LSCacheClearCommand::class),
     (new Extend\Event())->listen(ClearingCache::class, ClearingCacheListener::class),
 
-    // Extensions
+    // Compatibility with extensions
     (new Extend\Conditional)
         ->whenExtensionEnabled('flarum-tags', [
             (new Extend\Middleware('api'))->add(FlarumTagsPurgeMiddleware::class),
@@ -81,6 +81,6 @@ return [
             (new Extend\Middleware('api'))->add(FlarumLikesPurgeMiddleware::class),
         ])
         ->whenExtensionEnabled('fof-masquerade', [
-            (new Extend\Middleware('api'))->add(FofMasqueradeMiddleware::class),
+            (new Extend\Middleware('api'))->add(FofMasqueradePurgeMiddleware::class),
         ])
 ];

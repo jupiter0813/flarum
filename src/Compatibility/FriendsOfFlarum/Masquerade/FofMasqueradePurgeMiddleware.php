@@ -1,6 +1,6 @@
 <?php
 
-namespace ACPL\FlarumCache\Compatibility\FofMasquerade;
+namespace ACPL\FlarumCache\Compatibility\FriendsOfFlarum\Masquerade;
 
 use ACPL\FlarumCache\Abstract\PurgeMiddleware;
 use Flarum\User\User;
@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class Middleware extends PurgeMiddleware
+class FofMasqueradePurgeMiddleware extends PurgeMiddleware
 {
     protected function processPurge(
         ServerRequestInterface $request,

@@ -54,6 +54,7 @@
             },
             "optional-dependencies": [
                 "flarum/tags",
+                "flarum/likes",
                 "fof/masquerade"
             ]
         },

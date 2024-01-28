@@ -1,6 +1,6 @@
 <?php
 
-namespace ACPL\FlarumCache\Compatibility\FlarumTags;
+namespace ACPL\FlarumCache\Compatibility\Flarum\Tags;
 
 use ACPL\FlarumCache\Abstract\PurgeMiddleware;
 use Flarum\Discussion\Discussion;
