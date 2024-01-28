@@ -26,7 +26,8 @@
     },
     "require-dev": {
         "flarum/phpstan": "^1.8",
-        "flarum/tags": "*"
+        "flarum/tags": "*",
+        "v17development/flarum-blog": "^0.7.7"
     },
     "suggest": {
         "blomstra/flarum-redis": "This library allows using Redis as cache, session and for the queue. https://github.com/blomstra/flarum-redis#set-up"

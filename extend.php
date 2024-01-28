@@ -17,6 +17,7 @@ use ACPL\FlarumCache\Command\LSCacheClearCommand;
 use ACPL\FlarumCache\Compatibility\Flarum\Likes\FlarumLikesPurgeMiddleware;
 use ACPL\FlarumCache\Compatibility\Flarum\Tags\FlarumTagsPurgeMiddleware;
 use ACPL\FlarumCache\Compatibility\FriendsOfFlarum\Masquerade\FofMasqueradePurgeMiddleware;
+use ACPL\FlarumCache\Compatibility\v17development\FlarumBlog\FlarumBlogPurgeMiddleware;
 use ACPL\FlarumCache\Listener\ClearingCacheListener;
 use ACPL\FlarumCache\Middleware\LoginMiddleware;
 use ACPL\FlarumCache\Middleware\LogoutMiddleware;
@@ -82,5 +83,13 @@ return [
         ])
         ->whenExtensionEnabled('fof-masquerade', [
             (new Extend\Middleware('api'))->add(FofMasqueradePurgeMiddleware::class),
+        ])
+        ->whenExtensionEnabled('v17development-blog', [
+            // Using insertBefore enables reading headers set by LSCachePurgeMiddleware, while insertAfter does not.
+            // This suggests Flarum processes middleware in a reverse order 🤔.
+            (new Extend\Middleware('api'))->insertBefore(
+                LSCachePurgeMiddleware::class,
+                FlarumBlogPurgeMiddleware::class
+            ),
         ])
 ];
