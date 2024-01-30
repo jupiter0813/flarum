@@ -48,8 +48,12 @@ class VaryCookieMiddleware implements MiddlewareInterface
         return $this->withVaryCookie($response, $session);
     }
 
-    private function withVaryCookie(Response $response, Session $session): Response
+    private function withVaryCookie(Response $response, ?Session $session): Response
     {
+        if (! $session) {
+            return $response;
+        }
+
         return FigResponseCookies::set(
             $response,
             $this->cookie->make(LSCache::VARY_COOKIE, $session->token(), $this->session['lifetime'] * 60)
