@@ -31,6 +31,12 @@ class LSCachePurgeCommand extends AbstractCommand
                 null,
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
                 'The path whose cache you want to purge. E.g. "--path=/test"',
+            )
+            ->addOption(
+                'tag',
+                null,
+                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                'Tge cache tag whose cache you want to purge. E.g. "--tag=test"',
             );
     }
 
@@ -54,6 +60,11 @@ class LSCachePurgeCommand extends AbstractCommand
             $options['query']['paths'] = $paths;
         }
 
+        $tags = $this->input->getOption('tag');
+        if (! empty($tags)) {
+            $options['query']['tags'] = $tags;
+        }
+
         $client = new Client();
 
         try {
@@ -61,13 +72,14 @@ class LSCachePurgeCommand extends AbstractCommand
             $client->request('GET', $this->url->to('api')->route('lscache.purge'), $options);
         } catch (GuzzleException $exception) {
             $this->error('Something went wrong while sending the request.');
+            $this->error($exception->getMessage());
 
             return 1;
         } finally {
             $this->settings->delete('acpl-lscache.purgeKey');
         }
 
-        $this->info('Notified LiteSpeed Web Server to purge'.(empty($paths) ? ' all' : '').' LSCache entries');
+        $this->info('Notified LiteSpeed Web Server to purge'.((empty($paths) && empty($tags)) ? ' all' : '').' LSCache entries');
 
         return 0;
     }

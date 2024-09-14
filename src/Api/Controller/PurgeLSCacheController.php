@@ -8,8 +8,7 @@ use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\Exception\PermissionDeniedException;
 use Illuminate\Support\Arr;
 use Laminas\Diactoros\Response\EmptyResponse;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
 use Psr\Http\Server\RequestHandlerInterface;
 
 class PurgeLSCacheController implements RequestHandlerInterface
@@ -45,15 +44,27 @@ class PurgeLSCacheController implements RequestHandlerInterface
             throw new PermissionDeniedException();
         }
 
-        $purgeStr = $this->settings->get('acpl-lscache.serve_stale') ? 'stale,' : '';
+        $purgeParams = $this->settings->get('acpl-lscache.serve_stale') ? ['stale'] : [];
 
         $paths = Arr::get($request->getQueryParams(), 'paths');
-        if (! empty($paths)) {
-            $purgeStr .= implode(',', $paths);
+        $tags = Arr::get($request->getQueryParams(), 'tags');
+
+        if (empty($paths) && empty($tags)) {
+            $purgeParams[] = '*';
         } else {
-            $purgeStr .= '*';
+            if (! empty($paths)) {
+                $purgeParams = array_merge($purgeParams, $paths);
+            }
+            if (! empty($tags)) {
+                $purgeParams = array_merge(
+                    $purgeParams,
+                    array_map(fn ($tag) => "tag=$tag", $tags),
+                );
+            }
         }
 
-        return (new EmptyResponse())->withHeader(LSCacheHeader::PURGE, $purgeStr);
+        return (new EmptyResponse())
+            ->withHeader(LSCacheHeader::PURGE, implode(',', $purgeParams))
+            ->withHeader(LSCacheHeader::CACHE_CONTROL, 'no-cache');
     }
 }
