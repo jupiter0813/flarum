@@ -1,8 +1,8 @@
 <?php
 
-namespace ACPL\FlarumCache\Utility;
+namespace ACPL\FlarumLSCache\Utility;
 
-use ACPL\FlarumCache\LSCache;
+use ACPL\FlarumLSCache\LSCache;
 use Flarum\Foundation\Paths;
 use Flarum\Http\CookieFactory;
 use Flarum\Settings\SettingsRepositoryInterface;
@@ -59,8 +59,8 @@ class HtaccessManager
                 'RewriteRule .* - [E="Cache-Vary:'.implode(',', [
                     $this->cookie->getName(LSCache::VARY_COOKIE),
                     $this->cookie->getName('remember'),
-                    'locale'
-                ]).'"]'
+                    'locale',
+                ]).'"]',
             );
 
         // In the extend.php, there is an extender for default settings,

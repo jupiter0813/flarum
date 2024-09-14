@@ -1,6 +1,6 @@
 <?php
 
-namespace ACPL\FlarumCache\Command;
+namespace ACPL\FlarumLSCache\Command;
 
 use Flarum\Api\ApiKey;
 use Flarum\Console\AbstractCommand;
@@ -10,7 +10,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\Console\Input\InputOption;
 
-class LSCacheClearCommand extends AbstractCommand
+class LSCachePurgeCommand extends AbstractCommand
 {
     protected UrlGenerator $url;
     private SettingsRepositoryInterface $settings;

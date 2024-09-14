@@ -1,18 +1,16 @@
 <?php
 
-namespace ACPL\FlarumCache\Middleware;
+namespace ACPL\FlarumLSCache\Middleware;
 
-use ACPL\FlarumCache\LSCacheHeadersEnum;
+use ACPL\FlarumLSCache\LSCacheHeader;
 use Flarum\Http\RequestUtil;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Support\Str;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
+use Psr\Http\Server\{MiddlewareInterface, RequestHandlerInterface};
 
-class LSCacheControlMiddleware implements MiddlewareInterface
+class CacheControlMiddleware implements MiddlewareInterface
 {
     private SettingsRepositoryInterface $settings;
     private array $session;
@@ -32,18 +30,18 @@ class LSCacheControlMiddleware implements MiddlewareInterface
             return $this->withCacheControlHeader($response, 'no-cache');
         }
 
-        if (! in_array($method, ['GET', 'HEAD']) || $response->hasHeader(LSCacheHeadersEnum::CACHE_CONTROL)) {
+        if (! in_array($method, ['GET', 'HEAD']) || $response->hasHeader(LSCacheHeader::CACHE_CONTROL)) {
             return $response;
         }
 
         $routeName = $request->getAttribute('routeName');
 
-        //Exclude FriendsOfFlarum/OAuth routes
+        // Exclude FriendsOfFlarum/OAuth routes
         if (Str::startsWith($routeName, ['auth', 'fof-oauth'])) {
             return $this->withCacheControlHeader($response, 'no-cache');
         }
 
-        //Exclude paths specified in settings
+        // Exclude paths specified in settings
         $excludedPaths = Str::of($this->settings->get('acpl-lscache.cache_exclude'));
         if ($excludedPaths->isNotEmpty()) {
             $excludedPathsArr = $excludedPaths->explode("\n");
@@ -56,25 +54,25 @@ class LSCacheControlMiddleware implements MiddlewareInterface
             }
         }
 
-        //Exclude purge API route
+        // Exclude purge API route
         if ($routeName === 'lscache.purge') {
             return $this->withCacheControlHeader($response, 'no-cache');
         }
 
-        //Cache CSRF privately
+        // Cache CSRF privately
         if ($routeName === 'lscache.csrf') {
             // Subtract 2 minutes (120 seconds)
             // from the session lifetime to set the cache to expire before the actual session does.
             // This is to prevent a potential issue where an expired CSRF token might be served from the cache.
             return $this->withCacheControlHeader(
                 $response,
-                'private,max-age='.(($this->session['lifetime'] * 60) - 120)
+                'private,max-age='.(($this->session['lifetime'] * 60) - 120),
             );
         }
 
         $lscacheParams = [];
 
-        //Guest only cache for now
+        // Guest-only cache
         $user = RequestUtil::getActor($request);
         if ($user->isGuest()) {
             $lscacheParams[] = 'public';
@@ -85,14 +83,11 @@ class LSCacheControlMiddleware implements MiddlewareInterface
             $lscacheParams[] = 'no-cache';
         }
 
-        //TODO user group cache vary https://docs.litespeedtech.com/lscache/devguide/#cache-vary
-        //TODO private cache
-
         return $this->withCacheControlHeader($response, implode(',', $lscacheParams));
     }
 
     private function withCacheControlHeader(ResponseInterface $response, string $paramsStr): ResponseInterface
     {
-        return $response->withHeader(LSCacheHeadersEnum::CACHE_CONTROL, $paramsStr);
+        return $response->withHeader(LSCacheHeader::CACHE_CONTROL, $paramsStr);
     }
 }

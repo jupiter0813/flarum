@@ -1,21 +1,19 @@
 <?php
 
-namespace ACPL\FlarumCache\Abstract;
+namespace ACPL\FlarumLSCache\Middleware;
 
-use ACPL\FlarumCache\LSCacheHeadersEnum;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Server\RequestHandlerInterface;
+use ACPL\FlarumLSCache\LSCacheHeader;
+use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
+use Psr\Http\Server\{MiddlewareInterface, RequestHandlerInterface};
 
-abstract class CacheTagsMiddleware implements MiddlewareInterface
+abstract class AbstractCacheTagsMiddleware implements MiddlewareInterface
 {
     protected string $currentRouteName;
 
     abstract protected function processTags(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler,
-        ResponseInterface $response
+        ResponseInterface $response,
     ): ResponseInterface;
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -33,15 +31,13 @@ abstract class CacheTagsMiddleware implements MiddlewareInterface
 
     protected function addLSCacheTagsToResponse(ResponseInterface $response, array $newTags): ResponseInterface
     {
-        if ($response->hasHeader(LSCacheHeadersEnum::TAG)) {
+        if ($response->hasHeader(LSCacheHeader::TAG)) {
             $newTags = array_merge(
-                explode(',', $response->getHeaderLine(LSCacheHeadersEnum::TAG)),
-                $newTags
+                explode(',', $response->getHeaderLine(LSCacheHeader::TAG)),
+                $newTags,
             );
         }
 
-        $newTags = array_unique($newTags);
-
-        return $response->withHeader(LSCacheHeadersEnum::TAG, implode(',', $newTags));
+        return $response->withHeader(LSCacheHeader::TAG, implode(',', array_unique($newTags)));
     }
 }

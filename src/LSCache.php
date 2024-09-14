@@ -1,6 +1,8 @@
 <?php
 
-namespace ACPL\FlarumCache;
+namespace ACPL\FlarumLSCache;
+
+use Illuminate\Support\Str;
 
 class LSCache
 {
@@ -10,5 +12,10 @@ class LSCache
     public static function extractRootRouteName(string $name): string
     {
         return explode('.', $name, 2)[0];
+    }
+
+    public static function extractRootRouteSingularName(string $name): string
+    {
+        return Str::singular(self::extractRootRouteName($name));
     }
 }

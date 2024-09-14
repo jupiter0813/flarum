@@ -1,26 +1,21 @@
 <?php
 
-namespace ACPL\FlarumCache\Middleware;
+namespace ACPL\FlarumLSCache\Middleware;
 
-use ACPL\FlarumCache\LSCache;
+use ACPL\FlarumLSCache\LSCache;
 use Dflydev\FigCookies\FigResponseCookies;
 use Flarum\Http\CookieFactory;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Session\Session;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Http\Message\{ResponseInterface, ResponseInterface as Response, ServerRequestInterface};
+use Psr\Http\Server\{MiddlewareInterface, RequestHandlerInterface};
 
 class LoginMiddleware implements MiddlewareInterface
 {
-    private CookieFactory $cookie;
     private array $session;
 
-    public function __construct(CookieFactory $cookie, ConfigRepository $config)
+    public function __construct(protected CookieFactory $cookie, ConfigRepository $config)
     {
-        $this->cookie = $cookie;
         $this->session = $config->get('session');
     }
 
@@ -43,7 +38,7 @@ class LoginMiddleware implements MiddlewareInterface
     {
         return FigResponseCookies::set(
             $response,
-            $this->cookie->make(LSCache::VARY_COOKIE, $session->token(), $this->session['lifetime'] * 60)
+            $this->cookie->make(LSCache::VARY_COOKIE, $session->token(), $this->session['lifetime'] * 60),
         );
     }
 }

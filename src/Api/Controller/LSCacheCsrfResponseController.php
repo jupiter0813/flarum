@@ -1,6 +1,6 @@
 <?php
 
-namespace ACPL\FlarumCache\Api\Controller;
+namespace ACPL\FlarumLSCache\Api\Controller;
 
 use Laminas\Diactoros\Response\EmptyResponse;
 use Psr\Http\Message\ResponseInterface;

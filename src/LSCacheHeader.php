@@ -1,8 +1,8 @@
 <?php
 
-namespace ACPL\FlarumCache;
+namespace ACPL\FlarumLSCache;
 
-final class LSCacheHeadersEnum
+final class LSCacheHeader
 {
     const CACHE_CONTROL = 'X-LiteSpeed-Cache-Control';
     const PURGE = 'X-LiteSpeed-Purge';

@@ -1,6 +1,6 @@
 <?php
 
-use ACPL\FlarumCache\Utility\HtaccessManager;
+use ACPL\FlarumLSCache\Utility\HtaccessManager;
 use Flarum\Foundation\Paths;
 use Flarum\Http\CookieFactory;
 use Flarum\Settings\SettingsRepositoryInterface;
@@ -22,5 +22,5 @@ return [
     'down' => function () {
         $htaccessManager = lsCacheGetHtaccessManager();
         $htaccessManager->removeLsCacheBlock();
-    }
+    },
 ];

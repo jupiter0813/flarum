@@ -1,8 +1,8 @@
 <?php
 
-namespace ACPL\FlarumCache\Api\Controller;
+namespace ACPL\FlarumLSCache\Api\Controller;
 
-use ACPL\FlarumCache\LSCacheHeadersEnum;
+use ACPL\FlarumLSCache\LSCacheHeader;
 use Flarum\Http\RequestUtil;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\Exception\PermissionDeniedException;
@@ -54,6 +54,6 @@ class PurgeLSCacheController implements RequestHandlerInterface
             $purgeStr .= '*';
         }
 
-        return (new EmptyResponse())->withHeader(LSCacheHeadersEnum::PURGE, $purgeStr);
+        return (new EmptyResponse())->withHeader(LSCacheHeader::PURGE, $purgeStr);
     }
 }

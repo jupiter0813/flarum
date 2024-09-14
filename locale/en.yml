@@ -11,8 +11,8 @@ acpl-lscache:
     serve_stale_label: "Serve Stale Content"
     serve_stale_help: "If enabled, an outdated version of a cached page will be served to visitors until a fresh cache copy is generated. This reduces server load. If disabled, the page will be dynamically generated during the cache update, which may increase wait times. By design, this option can serve out-of-date content. Please do not enable this if you find that unacceptable."
 
-    purge_on_discussion_update_label: "Purge URLs or Tags on Discussion or Post Update"
-    purge_on_discussion_update_help: "Enter the URLs or Tags you want to purge when a discussion or post is updated, one per line. URL should start with <code>/</code>, e.g. <code>/rankings</code>, and cache Tag should start with <code>tag=</code>, e.g. <code>tag=rankings</code>. For multiple routes, adding a rule in .htaccess with a regular expression that tags routes and entering only this tag here is faster. <a>Learn more</a>. By default, the cache for the homepage and updated discussions is purged."
+    purge_on_discussion_update_label: "Purge URLs or cache Tags on Discussion Update"
+    purge_on_discussion_update_help: "Enter the URLs or cache Tags you want to purge when a discussion is updated, one per line. URL should start with <code>/</code>, e.g. <code>/rankings</code>, and cache Tag should start with <code>tag=</code>, e.g. <code>tag=rankings</code>. For multiple routes, adding a rule in .htaccess with a regular expression that tags routes and entering only this tag here is faster. <a>Learn more</a>. By default, the cache for the homepage and updated discussions is purged."
 
     cache_exclude_label: "Exclude Paths from Caching"
     cache_exclude_help: "Paths containing these strings will not be cached. For <code>/mypath/mypage?aa=bb</code>, you can use <code>mypage?aa=</code>. To match the beginning, add <code>^</code> at the start. For an exact match, add <code>$</code> at the end of the URL. One per line."
