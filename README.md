@@ -120,7 +120,8 @@ class PurgingCacheListener extends AbstractCachePurgeListener
 }
 ```
 
-It is recommended to purge cache tags instead of paths, as they also apply to different versions of the address, e.g., with query strings.
+> [!TIP]
+> It is recommended to purge cache tags instead of paths, as they also apply to different versions of the address, e.g., with query strings.
 
 It's also possible to create an event subscriber if you want to group multiple listeners in one class:
 
