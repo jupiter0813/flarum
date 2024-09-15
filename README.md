@@ -38,7 +38,7 @@ You can clear the LSCache without clearing the Flarum cache via the admin panel.
 
 ## For Developers
 
-## How the Extension Tags Paths
+### How the Extension Tags Paths
 
 First, it's useful to understand how the extension adds LSCache tags to forum paths.
 The extension uses route names. For example, if you registered routes for a resource in your extension named `examples`:
@@ -61,7 +61,7 @@ The extension will automatically add the following tags to the response:
 
 To see the cache tags added for a given request, check the value of the `X-LiteSpeed-Tag` header in the Network tab of DevTools.
 
-## Purging Cache
+### Purging Cache
 
 By default, the extension purges the cache for a resource with a given ID if it detects successful requests to paths with the suffixes `.create`, `.update`, `.delete`.
 
