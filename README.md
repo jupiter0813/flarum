@@ -59,7 +59,8 @@ The extension will automatically add the following tags to the response:
   - For the `id` parameter: a tag `{resource}_{id}` is added (e.g., `example_1`)
   - For the `slug` parameter: a tag `{resource}_{slug}` is added (e.g., `example_example-slug`)
 
-To see the cache tags added for a given request, check the value of the `X-LiteSpeed-Tag` header in the Network tab of DevTools.
+> [!TIP]
+> To see the cache tags added for a given request, check the value of the `X-LiteSpeed-Tag` header in the Network tab of DevTools.
 
 ### Purging Cache
 
