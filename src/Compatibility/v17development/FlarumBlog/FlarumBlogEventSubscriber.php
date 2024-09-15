@@ -34,9 +34,11 @@ class FlarumBlogEventSubscriber extends AbstractCachePurgeSubscriber
             $this->purger->addPurgeTag('blog.overview');
         }
 
-        $discussion = Arr::first($event->data['tags'], fn (string $tag) => str_starts_with($tag, 'discussion_'));
-        if ($discussion) {
-            $this->purger->addPurgeTag('blog_'.explode('_', $discussion)[1]);
+        $discussions = Arr::where($event->data['tags'], fn (string $tag) => preg_match('/^discussion_\d+$/', $tag));
+        if (! empty($discussions)) {
+            $this->purger->addPurgeTags(
+                preg_replace('/^discussion_(\d+)$/', 'blog_$1', $discussions),
+            );
         }
     }
 }
