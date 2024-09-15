@@ -149,7 +149,7 @@ class UserEventSubscriber extends AbstractCachePurgeSubscriber
         // ... rest of listeners
     }
 
-    public function handleExampleEdited(ExampleUpdated $event): void
+    public function handleExampleUpdated(ExampleUpdated $event): void
     {
         $this->purger->addPurgeTags([
             'examples',
