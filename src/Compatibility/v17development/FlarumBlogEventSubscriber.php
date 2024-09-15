@@ -1,6 +1,6 @@
 <?php
 
-namespace ACPL\FlarumLSCache\Compatibility\v17development\FlarumBlog;
+namespace ACPL\FlarumLSCache\Compatibility\v17development;
 
 use ACPL\FlarumLSCache\Event\LSCachePurging;
 use ACPL\FlarumLSCache\Listener\AbstractCachePurgeSubscriber;

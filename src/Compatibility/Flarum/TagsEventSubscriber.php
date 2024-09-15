@@ -1,6 +1,6 @@
 <?php
 
-namespace ACPL\FlarumLSCache\Compatibility\Flarum\Tags;
+namespace ACPL\FlarumLSCache\Compatibility\Flarum;
 
 use ACPL\FlarumLSCache\Listener\{AbstractCachePurgeSubscriber, DiscussionCachePurgeTrait};
 use Flarum\Discussion\Discussion;
@@ -15,7 +15,7 @@ use Flarum\Tags\Event\DiscussionWasTagged;
 use Flarum\Tags\Tag;
 use Illuminate\Contracts\Events\Dispatcher;
 
-class FlarumTagsEventSubscriber extends AbstractCachePurgeSubscriber
+class TagsEventSubscriber extends AbstractCachePurgeSubscriber
 {
     use DiscussionCachePurgeTrait;
 

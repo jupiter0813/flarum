@@ -1,12 +1,12 @@
 <?php
 
-namespace ACPL\FlarumLSCache\Compatibility\Flarum\Likes;
+namespace ACPL\FlarumLSCache\Compatibility\Flarum;
 
 use ACPL\FlarumLSCache\Listener\AbstractCachePurgeSubscriber;
 use Flarum\Likes\Event\{PostWasLiked, PostWasUnliked};
 use Illuminate\Contracts\Events\Dispatcher;
 
-class FlarumLikesEventSubscriber extends AbstractCachePurgeSubscriber
+class LikesEventSubscriber extends AbstractCachePurgeSubscriber
 {
     public function subscribe(Dispatcher $events): void
     {

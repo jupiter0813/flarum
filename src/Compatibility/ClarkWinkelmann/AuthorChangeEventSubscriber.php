@@ -1,10 +1,9 @@
 <?php
 
-namespace ACPL\FlarumLSCache\Compatibility\ClarkWinkelmann\AuthorChange;
+namespace ACPL\FlarumLSCache\Compatibility\ClarkWinkelmann;
 
 use ACPL\FlarumLSCache\Listener\{AbstractCachePurgeSubscriber, DiscussionCachePurgeTrait};
-use ClarkWinkelmann\AuthorChange\Event\{
-    DiscussionCreateDateChanged,
+use ClarkWinkelmann\AuthorChange\Event\{DiscussionCreateDateChanged,
     DiscussionUserChanged,
     PostCreateDateChanged,
     PostEditDateChanged,
@@ -12,7 +11,7 @@ use ClarkWinkelmann\AuthorChange\Event\{
 };
 use Illuminate\Contracts\Events\Dispatcher;
 
-class ClarkWinkelmannAuthorChangeEventSubscriber extends AbstractCachePurgeSubscriber
+class AuthorChangeEventSubscriber extends AbstractCachePurgeSubscriber
 {
     use DiscussionCachePurgeTrait;
 
@@ -48,7 +47,7 @@ class ClarkWinkelmannAuthorChangeEventSubscriber extends AbstractCachePurgeSubsc
     {
         $this->purger->addPurgeTags([
             "discussion_{$event->post->discussion->id}",
-            'posts.index',
+            'posts',
             "post_{$event->post->id}",
             "user_{$event->post->user->id}",
             "user_{$event->post->user->username}",

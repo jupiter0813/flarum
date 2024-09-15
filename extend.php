@@ -14,12 +14,12 @@ namespace ACPL\FlarumLSCache;
 use ACPL\FlarumLSCache\Api\Controller\{LSCacheCsrfResponseController, PurgeLSCacheController};
 use ACPL\FlarumLSCache\Command\LSCachePurgeCommand;
 use ACPL\FlarumLSCache\Compatibility\{
-    ClarkWinkelmann\AuthorChange\ClarkWinkelmannAuthorChangeEventSubscriber,
-    Flarum\Likes\FlarumLikesEventSubscriber,
-    Flarum\Tags\FlarumTagsEventSubscriber,
-    FriendsOfFlarum\Masquerade\FofMasqueradePurgeCacheMiddleware,
-    SychO\MovePosts\SychOMovePostsSubscriber,
-    v17development\FlarumBlog\FlarumBlogEventSubscriber
+    ClarkWinkelmann\AuthorChangeEventSubscriber,
+    Flarum\LikesEventSubscriber,
+    Flarum\TagsEventSubscriber,
+    FoF\MasqueradePurgeCacheMiddleware,
+    SychO\MovePostsSubscriber,
+    v17development\FlarumBlogEventSubscriber
 };
 use ACPL\FlarumLSCache\Listener\{
     ClearingCacheListener,
@@ -89,21 +89,21 @@ return [
 
     (new Extend\Conditional)
         ->whenExtensionEnabled('flarum-likes', [
-            (new Extend\Event)->subscribe(FlarumLikesEventSubscriber::class),
+            (new Extend\Event)->subscribe(LikesEventSubscriber::class),
         ])
         ->whenExtensionEnabled('flarum-tags', [
-            (new Extend\Event)->subscribe(FlarumTagsEventSubscriber::class),
+            (new Extend\Event)->subscribe(TagsEventSubscriber::class),
         ])
         ->whenExtensionEnabled('fof-masquerade', [
-            (new Extend\Middleware('api'))->add(FofMasqueradePurgeCacheMiddleware::class),
+            (new Extend\Middleware('api'))->add(MasqueradePurgeCacheMiddleware::class),
         ])
         ->whenExtensionEnabled('v17development-blog', [
             (new Extend\Event)->subscribe(FlarumBlogEventSubscriber::class),
         ])
         ->whenExtensionEnabled('clarkwinkelmann-author-change', [
-            (new Extend\Event)->subscribe(ClarkWinkelmannAuthorChangeEventSubscriber::class),
+            (new Extend\Event)->subscribe(AuthorChangeEventSubscriber::class),
         ])
         ->whenExtensionEnabled('sycho-move-posts', [
-            (new Extend\Event)->subscribe(SychOMovePostsSubscriber::class),
+            (new Extend\Event)->subscribe(MovePostsSubscriber::class),
         ]),
 ];

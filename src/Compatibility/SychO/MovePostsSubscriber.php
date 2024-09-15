@@ -1,6 +1,6 @@
 <?php
 
-namespace ACPL\FlarumLSCache\Compatibility\SychO\MovePosts;
+namespace ACPL\FlarumLSCache\Compatibility\SychO;
 
 use ACPL\FlarumLSCache\Listener\AbstractCachePurgeSubscriber;
 use ACPL\FlarumLSCache\Listener\DiscussionCachePurgeTrait;
@@ -8,7 +8,7 @@ use Flarum\Post\CommentPost;
 use Illuminate\Contracts\Events\Dispatcher;
 use SychO\MovePosts\Event\PostsMoved;
 
-class SychOMovePostsSubscriber extends AbstractCachePurgeSubscriber
+class MovePostsSubscriber extends AbstractCachePurgeSubscriber
 {
     use DiscussionCachePurgeTrait;
 

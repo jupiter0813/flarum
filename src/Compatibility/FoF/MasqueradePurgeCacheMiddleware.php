@@ -1,12 +1,12 @@
 <?php
 
-namespace ACPL\FlarumLSCache\Compatibility\FriendsOfFlarum\Masquerade;
+namespace ACPL\FlarumLSCache\Compatibility\FoF;
 
 use ACPL\FlarumLSCache\Middleware\AbstractPurgeCacheMiddleware;
 use Flarum\User\User;
 use Psr\Http\Message\ServerRequestInterface;
 
-class FofMasqueradePurgeCacheMiddleware extends AbstractPurgeCacheMiddleware
+class MasqueradePurgeCacheMiddleware extends AbstractPurgeCacheMiddleware
 {
     protected function preparePurgeData(ServerRequestInterface $request): void
     {
