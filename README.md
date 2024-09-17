@@ -143,7 +143,7 @@ return [
 use ACPL\FlarumLSCache\Listener\AbstractCachePurgeSubscriber;
 use Illuminate\Contracts\Events\Dispatcher;
 
-class UserEventSubscriber extends AbstractCachePurgeSubscriber
+class ExampleEventSubscriber extends AbstractCachePurgeSubscriber
 {
     public function subscribe(Dispatcher $events): void
     {
