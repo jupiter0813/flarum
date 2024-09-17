@@ -1,6 +1,6 @@
 {
     "name": "acpl/flarum-lscache",
-    "description": "Speed up your forum on LiteSpeed Web Server.",
+    "description": "LSCache implementation for Flarum.",
     "keywords": [
         "flarum",
         "LSCache",
