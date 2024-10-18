@@ -96,7 +96,7 @@ return [
 // ExampleUpdatedListener.php
 use ACPL\FlarumLSCache\Listener\AbstractCachePurgeListener;
 
-class PurgingCacheListener extends AbstractCachePurgeListener
+class ExampleUpdatedListener extends AbstractCachePurgeListener
 {
     /** @param  ExampleUpdated  $event */
     protected function addPurgeData($event): void  
