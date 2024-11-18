@@ -25,14 +25,15 @@
         "php": ">=8.1"
     },
     "require-dev": {
-        "flarum/phpstan": "^1.8",
-        "flarum/tags": "^1.8",
-        "v17development/flarum-blog": "^0.7.7",
+        "clarkwinkelmann/flarum-ext-author-change": "^1.0",
         "flarum/approval": "^1.8",
         "flarum/likes": "^1.8",
+        "flarum/phpstan": "^1.8",
+        "flarum/tags": "^1.8",
         "fof/masquerade": "^2.1",
-        "clarkwinkelmann/flarum-ext-author-change": "^1.0",
-        "sycho/flarum-move-posts": "^0.1.7"
+        "fof/merge-discussions": "^1.4",
+        "sycho/flarum-move-posts": "^0.1.7",
+        "v17development/flarum-blog": "^v0.8.0"
     },
     "suggest": {
         "blomstra/flarum-redis": "This library allows using Redis as cache, session and for the queue. https://github.com/blomstra/flarum-redis#set-up"
@@ -94,5 +95,8 @@
     },
     "scripts-descriptions": {
         "analyse:phpstan": "Run static analysis"
+    },
+    "config": {
+        "sort-packages": true
     }
 }
