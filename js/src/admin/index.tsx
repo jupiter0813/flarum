@@ -14,6 +14,7 @@ app.initializers.add('acpl-lscache', () => {
             href="https://docs.litespeedtech.com/lscache/noplugin/installation/#verify-your-site-is-being-cached"
             external={true}
             target="_blank"
+            rel="noopener noreferrer"
           />
         ),
       }),
@@ -41,7 +42,14 @@ app.initializers.add('acpl-lscache', () => {
       setting: 'acpl-lscache.purge_on_discussion_update',
       label: app.translator.trans('acpl-lscache.admin.purge_on_discussion_update_label'),
       help: app.translator.trans('acpl-lscache.admin.purge_on_discussion_update_help', {
-        a: <Link href="https://docs.litespeedtech.com/lscache/devguide/controls/#cache-tag" external={true} target="_blank" />,
+        a: (
+          <Link
+            href="https://docs.litespeedtech.com/lscache/devguide/controls/#cache-tag"
+            external={true}
+            target="_blank"
+            rel="noopener noreferrer"
+          />
+        ),
       }),
       type: 'textarea',
     })
@@ -55,7 +63,14 @@ app.initializers.add('acpl-lscache', () => {
       setting: 'acpl-lscache.drop_qs',
       label: app.translator.trans('acpl-lscache.admin.drop_qs_label'),
       help: app.translator.trans('acpl-lscache.admin.drop_qs_help', {
-        a: <Link href="https://docs.litespeedtech.com/lscache/start/#drop-junk-query-strings" external={true} target="_blank" />,
+        a: (
+          <Link
+            href="https://docs.litespeedtech.com/lscache/start/#drop-junk-query-strings"
+            external={true}
+            target="_blank"
+            rel="noopener noreferrer"
+          />
+        ),
       }),
       type: 'textarea',
     });
