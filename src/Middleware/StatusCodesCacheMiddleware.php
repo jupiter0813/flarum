@@ -11,7 +11,9 @@ use Psr\Http\Server\{MiddlewareInterface, RequestHandlerInterface};
 
 class StatusCodesCacheMiddleware implements MiddlewareInterface
 {
-    public function __construct(protected SettingsRepositoryInterface $settings) { }
+    public function __construct(protected SettingsRepositoryInterface $settings)
+    {
+    }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
