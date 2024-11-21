@@ -73,6 +73,12 @@ app.initializers.add('acpl-lscache', () => {
         ),
       }),
       type: 'textarea',
+    })
+    .registerSetting({
+      setting: 'acpl-lscache.status_codes_cache',
+      label: app.translator.trans('acpl-lscache.admin.status_codes_cache_label'),
+      help: app.translator.trans('acpl-lscache.admin.status_codes_cache_help'),
+      type: 'textarea',
     });
 
   addPurgeLSCacheButton();

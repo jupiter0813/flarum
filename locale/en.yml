@@ -22,5 +22,8 @@ acpl-lscache:
       Use this feature to drop specific query strings, like <code>fbclid</code> or <code>utm*</code>, when caching. This prevents redundant caching of pages with "junk" query strings such as UTM codes, which are used for tracking but don't affect page content. This requires LSWS v5.2.3 or newer. List the query strings to drop, one per line. <a>Learn more about dropping query strings</a>.<br></br>
       ⚠️ This setting will modify the .htaccess file.
 
+    status_codes_cache_label: "Default HTTP Status Code Page TTL"
+    status_codes_cache_help: "Specify an HTTP status code and the number of seconds to cache that page, separated by a space. One per line."
+
     purge_all: "Purge All LSCache"
     purge_all_success: "LiteSpeed Web Server has been notified to purge all LSCache entries"

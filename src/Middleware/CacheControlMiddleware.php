@@ -12,12 +12,10 @@ use Psr\Http\Server\{MiddlewareInterface, RequestHandlerInterface};
 
 class CacheControlMiddleware implements MiddlewareInterface
 {
-    private SettingsRepositoryInterface $settings;
     private array $session;
 
-    public function __construct(SettingsRepositoryInterface $settings, ConfigRepository $config)
+    public function __construct(private readonly SettingsRepositoryInterface $settings, ConfigRepository $config)
     {
-        $this->settings = $settings;
         $this->session = $config->get('session');
     }
 

@@ -34,11 +34,13 @@ use ACPL\FlarumLSCache\Middleware\{
     LoginMiddleware,
     LogoutMiddleware,
     PurgeCacheMiddleware,
+    StatusCodesCacheMiddleware,
     VaryCookieMiddleware
 };
 use Flarum\Extend;
 use Flarum\Foundation\Event\ClearingCache;
 use Flarum\Http\Middleware\CheckCsrfToken;
+use Flarum\Http\Middleware\InjectActorReference;
 use Flarum\Settings\Event\Saved;
 
 return [
@@ -51,7 +53,8 @@ return [
         ->default('acpl-lscache.cache_enabled', true)
         ->default('acpl-lscache.public_cache_ttl', 604_800)
         ->default('acpl-lscache.clearing_cache_listener', true)
-        ->default('acpl-lscache.drop_qs', implode("\n", LSCache::DEFAULT_DROP_QS)),
+        ->default('acpl-lscache.drop_qs', implode("\n", LSCache::DEFAULT_DROP_QS))
+        ->default('acpl-lscache.status_codes_cache', "404 3600\n403 3600\n500 120"),
     (new Extend\Event())->listen(Saved::class, Listener\UpdateSettingsListener::class),
 
     // Vary cookie
@@ -66,6 +69,10 @@ return [
     // Tag routes
     (new Extend\Middleware('forum'))->add(CacheTagsMiddleware::class),
     (new Extend\Middleware('api'))->add(CacheTagsMiddleware::class),
+
+    // Cache status codes
+    (new Extend\Middleware('forum'))->insertAfter(InjectActorReference::class, StatusCodesCacheMiddleware::class),
+    (new Extend\Middleware('api'))->insertAfter(InjectActorReference::class, StatusCodesCacheMiddleware::class),
 
     // Cache routes
     (new Extend\Middleware('forum'))->insertAfter(VaryCookieMiddleware::class, CacheControlMiddleware::class),
@@ -88,6 +95,7 @@ return [
     (new Extend\Event)->subscribe(PostEventSubscriber::class),
     (new Extend\Event)->subscribe(UserEventSubscriber::class),
 
+    // Extensions
     (new Extend\Conditional)
         ->whenExtensionEnabled('flarum-likes', [
             (new Extend\Event)->subscribe(LikesEventSubscriber::class),
