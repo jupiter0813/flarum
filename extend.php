@@ -72,6 +72,7 @@ return [
 
     // Cache status codes
     (new Extend\Middleware('forum'))->insertAfter(InjectActorReference::class, StatusCodesCacheMiddleware::class),
+    (new Extend\Middleware('admin'))->insertAfter(InjectActorReference::class, StatusCodesCacheMiddleware::class),
     (new Extend\Middleware('api'))->insertAfter(InjectActorReference::class, StatusCodesCacheMiddleware::class),
 
     // Cache routes
