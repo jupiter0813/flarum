@@ -5,8 +5,7 @@ namespace ACPL\FlarumLSCache\Middleware;
 use ACPL\FlarumLSCache\LSCacheHeader;
 use Flarum\Http\RequestUtil;
 use Flarum\Settings\SettingsRepositoryInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
 use Psr\Http\Server\{MiddlewareInterface, RequestHandlerInterface};
 
 class StatusCodesCacheMiddleware implements MiddlewareInterface
@@ -18,7 +17,8 @@ class StatusCodesCacheMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $response = $handler->handle($request);
-        if ($response->hasHeader(LSCacheHeader::CACHE_CONTROL)) {
+
+        if (! in_array($request->getMethod(), ['GET', 'HEAD']) || $response->hasHeader(LSCacheHeader::CACHE_CONTROL)) {
             return $response;
         }
 
