@@ -11,7 +11,6 @@
 
 namespace ACPL\FlarumLSCache;
 
-use Flarum\Api\Serializer\UserSerializer;
 use ACPL\FlarumLSCache\Api\Controller\{LSCacheCsrfResponseController, PurgeLSCacheController};
 use ACPL\FlarumLSCache\Command\LSCachePurgeCommand;
 use ACPL\FlarumLSCache\Compatibility\{
@@ -38,6 +37,7 @@ use ACPL\FlarumLSCache\Middleware\{
     StatusCodesCacheMiddleware,
     VaryCookieMiddleware
 };
+use Flarum\Api\Serializer\UserSerializer;
 use Flarum\Extend;
 use Flarum\Foundation\Event\ClearingCache;
 use Flarum\Http\Middleware\CheckCsrfToken;
