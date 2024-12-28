@@ -25,5 +25,18 @@ acpl-lscache:
     status_codes_cache_label: "Default HTTP Status Code Page TTL"
     status_codes_cache_help: "Specify an HTTP status code and the number of seconds to cache that page, separated by a space. One per line."
 
-    purge_all: "Purge All LSCache"
-    purge_all_success: "LiteSpeed Web Server has been notified to purge all LSCache entries"
+    purge_all: => acpl-lscache.ref.purge_cache
+
+    permissions:
+      purge: => acpl-lscache.ref.purge_cache
+
+  forum:
+    purge:
+      discussion: => acpl-lscache.ref.purge_cache
+
+  lib:
+    purge_success: "Notified LiteSpeed Server to purge LSCache entries"
+    purge_all_success: "Notified LiteSpeed Server to purge all LSCache entries"
+
+  ref:
+    purge_cache: "Purge LSCache"

@@ -27,11 +27,11 @@ class PurgeLSCacheController implements RequestHandlerInterface
     {
         $canPurge = false;
 
-        if (RequestUtil::getActor($request)->isAdmin()) {
+        if (RequestUtil::getActor($request)->can('lscache.purge')) {
             $canPurge = true;
         }
 
-        //If a command is used, use the temporary key because the user is not logged in
+        // If a command is used, use the temporary key because the user is not logged in
         if (! $canPurge) {
             $key = $this->settings->get('acpl-lscache.purgeKey');
             $reqKey = $request->getHeaderLine('LSCachePurgeKey');

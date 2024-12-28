@@ -11,6 +11,7 @@
 
 namespace ACPL\FlarumLSCache;
 
+use Flarum\Api\Serializer\UserSerializer;
 use ACPL\FlarumLSCache\Api\Controller\{LSCacheCsrfResponseController, PurgeLSCacheController};
 use ACPL\FlarumLSCache\Command\LSCachePurgeCommand;
 use ACPL\FlarumLSCache\Compatibility\{
@@ -56,6 +57,13 @@ return [
         ->default('acpl-lscache.drop_qs', implode("\n", LSCache::DEFAULT_DROP_QS))
         ->default('acpl-lscache.status_codes_cache', "404 3600\n403 3600\n500 120"),
     (new Extend\Event())->listen(Saved::class, Listener\UpdateSettingsListener::class),
+
+    // Permissions
+    (new Extend\ApiSerializer(UserSerializer::class))
+        ->attribute(
+            'canPurgeLSCache',
+            fn (UserSerializer $serializer) => $serializer->getActor()->can('lscache.purge'),
+        ),
 
     // Vary cookie
     (new Extend\Middleware('forum'))->insertAfter(CheckCsrfToken::class, VaryCookieMiddleware::class),

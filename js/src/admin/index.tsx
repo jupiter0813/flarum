@@ -3,6 +3,8 @@ import Link from 'flarum/common/components/Link';
 import addPurgeLSCacheButton from './addPurgeLSCacheButton';
 
 app.initializers.add('acpl-lscache', () => {
+  addPurgeLSCacheButton();
+
   app.extensionData
     .for('acpl-lscache')
     .registerSetting({
@@ -79,7 +81,13 @@ app.initializers.add('acpl-lscache', () => {
       label: app.translator.trans('acpl-lscache.admin.status_codes_cache_label'),
       help: app.translator.trans('acpl-lscache.admin.status_codes_cache_help'),
       type: 'textarea',
-    });
-
-  addPurgeLSCacheButton();
+    })
+    .registerPermission(
+      {
+        icon: 'fas fa-broom',
+        label: app.translator.trans('acpl-lscache.admin.permissions.purge'),
+        permission: 'lscache.purge',
+      },
+      'moderate'
+    );
 });
