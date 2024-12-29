@@ -3,6 +3,7 @@ import { extend } from 'flarum/common/extend';
 import DiscussionControls from 'flarum/forum/utils/DiscussionControls';
 import Button from 'flarum/common/components/Button';
 import purgeLSCache from '../common/purgeLSCache';
+import { PURGE_ICON } from '../common/constants';
 
 export default function extendDiscussionControls() {
   extend(DiscussionControls, 'moderationControls', (items, discussion) => {
@@ -15,7 +16,7 @@ export default function extendDiscussionControls() {
 
     items.add(
       'acpl-lscache-purge',
-      <Button icon="fas fa-broom" onclick={() => purgeLSCache([`discussion_${discussionId}`])}>
+      <Button icon={PURGE_ICON} onclick={() => purgeLSCache([`discussion_${discussionId}`])}>
         {app.translator.trans('acpl-lscache.forum.purge.discussion')}
       </Button>
     );

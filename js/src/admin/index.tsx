@@ -1,6 +1,7 @@
 import app from 'flarum/admin/app';
 import Link from 'flarum/common/components/Link';
 import addPurgeLSCacheButton from './addPurgeLSCacheButton';
+import { PURGE_ICON } from '../common/constants';
 
 app.initializers.add('acpl-lscache', () => {
   addPurgeLSCacheButton();
@@ -84,7 +85,7 @@ app.initializers.add('acpl-lscache', () => {
     })
     .registerPermission(
       {
-        icon: 'fas fa-broom',
+        icon: PURGE_ICON,
         label: app.translator.trans('acpl-lscache.admin.permissions.purge'),
         permission: 'lscache.purge',
       },
