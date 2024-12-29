@@ -25,11 +25,7 @@ class PurgeLSCacheController implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $canPurge = false;
-
-        if (RequestUtil::getActor($request)->can('lscache.purge')) {
-            $canPurge = true;
-        }
+        $canPurge = RequestUtil::getActor($request)->can('lscache.purge');
 
         // If a command is used, use the temporary key because the user is not logged in
         if (! $canPurge) {
