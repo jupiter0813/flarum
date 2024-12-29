@@ -35,8 +35,8 @@ acpl-lscache:
       discussion: => acpl-lscache.ref.purge_cache
 
   lib:
-    purge_success: "Notified LiteSpeed Server to purge LSCache entries"
-    purge_all_success: "Notified LiteSpeed Server to purge all LSCache entries"
+    purge_success: "Notified LiteSpeed Server to purge LSCache entries."
+    purge_all_success: "Notified LiteSpeed Server to purge all LSCache entries."
 
   ref:
     purge_cache: "Purge LSCache"
