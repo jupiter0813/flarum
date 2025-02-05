@@ -34,8 +34,8 @@ class CacheControlMiddleware implements MiddlewareInterface
 
         $routeName = $request->getAttribute('routeName');
 
-        // Exclude FriendsOfFlarum/OAuth routes
-        if (Str::startsWith($routeName, ['auth', 'fof-oauth'])) {
+        // Exclude auth routes
+        if (Str::startsWith($routeName, ['auth', 'fof-oauth']) || $routeName === 'resetPassword') {
             return $this->withCacheControlHeader($response, 'no-cache');
         }
 
