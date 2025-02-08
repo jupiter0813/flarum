@@ -44,11 +44,9 @@ class LSCachePurgeCommand extends AbstractCommand
     {
         $this->info('Sending a request to purge LSCache entries...');
 
-        //Create a temporary API key to authorize a request
         $apiKey = new ApiKey();
         $key = $apiKey::generate()->key;
-        //The key is saved temporarily in the settings.
-        //The native Flarum API key is not used because it requires a user ID but in the case of the command, the user is not logged in.
+
         $this->settings->set('acpl-lscache.purgeKey', $key);
 
         $options = [
